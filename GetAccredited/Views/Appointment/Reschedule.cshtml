@@ -1,0 +1,47 @@
+﻿@model Request
+@{
+    ViewBag.Title = "Reschedule Request";
+    Appointment oldAppointment = Model.Booking.Appointment;
+    IEnumerable<Appointment> appointments = ViewBag.Appointments;
+}
+
+<div class="row">
+    <h2>
+        Reschedule Appointment
+    </h2>
+</div>
+
+<div class="row resched-container">
+    <form asp-controller="Appointment" asp-action="RequestReschedule">
+        <!-- Hidden Inputs -->
+        <input asp-for="@Model.Booking.BookingId" type="hidden" />
+
+        <table>
+            <!-- Old Appointment Details -->
+            <tr>
+                <td>Old Appointment:</td>
+                <td class="resched_appoint">@oldAppointment</td>
+            </tr>
+
+            <!-- New Appointment -->
+            <tr>
+                <td>New Date and Time:</td>
+                <td>
+                    <select asp-for="@Model.NewAppointment.AppointmentId">
+                        <option value="">Select a time slot</option>
+                        @foreach (var appointment in appointments)
+                        {
+                            <option value="@appointment.AppointmentId">@appointment</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+
+            <!-- Submit Button -->
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" value="Submit Request" /></td>
+            </tr>
+        </table>
+    </form>
+</div>

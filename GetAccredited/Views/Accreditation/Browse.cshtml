@@ -1,0 +1,86 @@
+﻿@model BrowseAccreditationsViewModel
+@{
+    ViewBag.Title = "Browse Accreditations";
+}
+
+<div class="row">
+    <h2>
+        Browse Accreditations
+    </h2>
+</div>
+
+<div class="row browseaccred-container">
+    <form asp-controller="Accreditation" asp-action="BrowseAccreditations">
+        <table>
+            <tr>
+                <td>Search by:</td>
+                <td><input asp-for="SearchKey" placeholder="Search" /></td>
+            </tr>
+
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <select asp-for="SearchBy">
+                        <option>Organization</option>
+                        <option>Accreditation</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Accreditation Type:</td>
+                <td>
+                    <select asp-for="AccreditationType">
+                        <option value="">Any</option>
+                        @foreach (var type in Accreditation.GetTypes())
+                        {
+                            <option value="@type">@type</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td><input type="submit" value="Search" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div class="row">
+    <h1>
+        &nbsp;
+    </h1>
+</div>
+
+<div class="row">
+    <table class="accredlist">
+        <thead>
+            <tr class="accredlist_tr">
+                <th class="accredlist_th">Accreditation</th>
+                <th class="accredlist_th">Organization</th>
+                <th class="accredlist_th">Type</th>
+                <th class="accredlist_th">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var accreditation in Model.Accreditations)
+            {
+                <tr class="accredlist_tr">
+                    <td class="accredlist_td">@accreditation</td>
+                    <td class="accredlist_td">@accreditation.Organization.Name</td>
+                    <td class="accredlist_td">@accreditation.Type</td>
+                    <td class="accredlist_td">
+                        <a class="accredlist_crud" asp-controller="Appointment"
+                           asp-action="BookAppointment"
+                           asp-route-accreditationId="@accreditation.AccreditationId">Book an Appointment</a> |
+                        <a class="accredlist_crud" asp-controller="Accreditation"
+                           asp-action="Eligibility"
+                           asp-route-accreditationId="@accreditation.AccreditationId">Check Eligibility</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

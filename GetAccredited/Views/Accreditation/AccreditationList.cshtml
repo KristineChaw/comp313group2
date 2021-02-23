@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Accreditation>
+@{ ViewBag.Title = "Accreditations"; }
+
+<div class="row">
+    <h2>
+        Accreditation List
+    </h2>
+</div>
+
+<div class="row">
+    <table class="repaccredlist">
+        <thead>
+            <tr class="repaccredlist_tr">
+                <th class="repaccredlist_th">Name</th>
+                <th class="repaccredlist_th">Type</th>
+                <th class="repaccredlist_th">Date Created</th>
+                <th class="repaccredlist_th">Created by</th>
+                <th class="repaccredlist_th">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var accreditation in Model)
+                {
+                    <tr class="repaccredlist_tr">
+                        <td class="repaccredlist_td">@accreditation</td>
+                        <td class="repaccredlist_td">@accreditation.Type</td>
+                        <td class="repaccredlist_td">@accreditation.DateCreated.ToString("M/dd/yyyy")</td>
+                        <td class="repaccredlist_td">@(await userManager.FindByIdAsync(accreditation.CreatorId))</td>
+                        <td class="repaccredlist_td">
+                            <a class="repaccredlist_crud" asp-controller="Accreditation"
+                               asp-action="Edit"
+                               asp-route-accreditationId="@accreditation.AccreditationId">Edit</a> | <a class="repaccredlist_crud" asp-controller="Accreditation"
+                                                                                                        asp-action="Delete"
+                                                                                                        asp-route-accreditationId="@accreditation.AccreditationId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <div class="row">
+        <a class="btn_accredlist" asp-controller="Accreditation"
+           asp-action="Create">Create an Accreditation</a>
+    </div>
+</div>

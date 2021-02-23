@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Booking>
+@{ ViewBag.Title = "My Appointments"; }
+
+
+<div class="row">
+    <h2>
+        My Appointments
+    </h2>
+</div>
+
+<div class="row">
+    @if (Model.Any())
+    {
+        <table class="myappointlist">
+            <thead>
+                <tr class="myappointlist_tr">
+                    <th class="myappointlist_th">Date</th>
+                    <th class="myappointlist_th">Start Time</th>
+                    <th class="myappointlist_th">End Time</th>
+                    <th class="myappointlist_th">Organization</th>
+                    <th class="myappointlist_th">Accreditation</th>
+                    <th class="myappointlist_th">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var booking in Model)
+                {
+                    <tr class="myappointlist_tr">
+                        <td class="myappointlist_td">@($"{booking.Appointment.Date:MMMM d, yyyy}")</td>
+                        <td class="myappointlist_td">@($"{booking.Appointment.Start:h:mm tt}")</td>
+                        <td class="myappointlist_td">@($"{booking.Appointment.End:h:mm tt}")</td>
+                        <td class="myappointlist_td">@booking.Accreditation.Organization.Name</td>
+                        <td class="myappointlist_td">@booking.Accreditation</td>
+                        <td>
+                            @if (booking.IsCancelled)
+                            {
+                                <i>CANCELLED</i>
+                            }
+                            else
+                            {
+                                <span>
+                                    <a class="appointlist_crud" asp-controller="Appointment"
+                                       asp-action="RequestReschedule"
+                                       asp-route-bookingId="@booking.BookingId">Reschedule</a> | <a class="appointlist_crud" asp-controller="Appointment"
+                                                                                                    asp-action="RequestCancellation"
+                                                                                                    asp-route-bookingId="@booking.BookingId">Cancel</a>
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <center>You have no appointments booked at the moment.</center>
+    }
+</div>

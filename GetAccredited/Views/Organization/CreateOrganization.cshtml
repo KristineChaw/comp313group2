@@ -1,0 +1,49 @@
+﻿@model Organization
+@{
+    bool isCreate = Model.OrganizationId == null;
+    ViewBag.Title = isCreate ? "Create an Organization" : "Edit Organization";
+}
+
+<div class="row">
+    <h2>
+        @(isCreate ? "Create an Organization" : "Edit Organization")
+    </h2>
+</div>
+
+<div class="row org-container">
+    <form asp-controller="Organization" asp-action="Save" method="post">
+        <!-- Hidden input(s) -->
+        <input asp-for="OrganizationId" type="hidden" />
+
+        <table>
+            <!-- Name -->
+            <tr>
+                <td>Name:</td>
+                <td><input asp-for="Name" type="text" required /></td>
+            </tr>
+
+            <!-- Acronym -->
+            <tr>
+                <td>Acronym:</td>
+                <td><input asp-for="Acronym" type="text" required /></td>
+            </tr>
+
+            <!-- Description -->
+            <tr>
+                <td class="org_description_label">Provide a description:</td>
+                <td><textarea class="org_description" asp-for="Description" required></textarea></td>
+            </tr>
+
+            <!-- Website (Optional) -->
+            <tr>
+                <td>Website URL:</td>
+                <td><input asp-for="WebsiteUrl" type="url" /></td>
+            </tr>
+
+            <!-- Submit button -->
+            <tr>
+                <td><input type="submit" value=@(isCreate?"Create":"Save") /></td>
+            </tr>
+        </table>
+    </form>
+</div>

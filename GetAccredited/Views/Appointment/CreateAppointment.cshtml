@@ -1,0 +1,57 @@
+﻿@model Appointment
+@{
+    bool isCreate = Model.AppointmentId == 0;
+    ViewBag.Title = isCreate ? "Create" : "Edit" + " an Appointment";
+}
+
+<div class="row">
+    <h2>
+        @((isCreate ? "Create" : "Edit") + " Appointment")
+    </h2>
+</div>
+
+<div class="row appoint-container">
+    <form asp-controller="Appointment" asp-action="Save" method="post">
+        <!-- Hidden Input(s) -->
+        <input asp-for="AppointmentId" type="hidden" />
+
+        <table>
+            <tr>
+                <!-- DATE -->
+                <td>
+                    Date
+                </td>
+                <td>
+                    <input asp-for="Date" type="date" required />
+                </td>
+            </tr>
+
+            <!-- Start Time -->
+            <tr>
+                <td>
+                    Start Time
+                </td>
+                <td>
+                    <input asp-for="Start" type="time" step="60" required onchange="validateTimePeriod()" />
+                </td>
+            </tr>
+
+            <!-- End Time -->
+            <tr>
+                <td>
+                    End Time
+                </td>
+                <td>
+                    <input asp-for="End" type="time" step="60" required onchange="validateTimePeriod()" />
+                </td>
+            </tr>
+
+            <!-- Submit Button -->
+            <tr>
+                <td>
+                    <input type="submit" value="@(isCreate ? "Create" : "Save")" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

@@ -1,0 +1,55 @@
+﻿@model BookAppointmentViewModel
+@{
+    ViewBag.Title = "Book an Appointment";
+}
+
+
+<div class="row">
+    <h2>
+        Book an Appointment
+    </h2>
+</div>
+
+<div class="row bookappoint-container">
+    <form asp-controller="Appointment" asp-action="BookAppointment" method="post">
+        <table>
+            <tr>
+                <td>Organization:</td>
+                <td class="bookappoint_org_name">@Model.Organization</td>
+            </tr>
+            <tr>
+                <td>Accreditation:</td>
+                <td>
+                    <select asp-for="AccreditationId">
+                        @foreach (var acc in Model.Accreditations)
+                        {
+                            <option value="@acc.AccreditationId">@acc</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Date and Time:</td>
+                <td>
+                    <select asp-for="AppointmentId" required>
+                        <option value="">Select a time slot</option>
+                        @foreach (var app in Model.Appointments)
+                        {
+                            <option value="@app.AppointmentId">@($"{app.Date:MMMM d, yyyy}, {app.Start:h:mm tt}-{app.End:h:mm tt}")</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label><br>Please make sure that you meet the requirements to apply for the accreditation you selected.</label> <br />
+                    <input type="checkbox" required /> <label> I ensure that I meet all the eligibility requirements</label>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" value="Continue to Payment" /></td>
+            </tr>
+        </table>
+    </form>
+</div>

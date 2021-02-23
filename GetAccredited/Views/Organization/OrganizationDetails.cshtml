@@ -1,0 +1,81 @@
+﻿@model Organization
+@{
+    ViewBag.Title = Model.Name;
+    IEnumerable<Accreditation> accreditations = ViewBag.Accreditations;
+}
+
+<div class="row">
+    <h2>
+        Organization Details
+    </h2>
+</div>
+
+<div class="row">
+    <div class="col span-1-of-1">
+        <!-- ORGANIZATION DETAILS -->
+        <div class="org_details_box">
+            <h1 class="org_details_title">
+                @Model
+            </h1><br>
+            <p>@Model.Description</p><br>
+            <p><a class="orgdetails_url" href="@Model.WebsiteUrl" target="_blank" title="Open website in a new tab">Go to website</a></p>
+            @if (User.IsStudent())
+            {
+                <p>
+                    <a  class="orgdetails_crud" asp-controller="Appointment"
+                       asp-action="BookAppointment"
+                       asp-route-organizationId="@Model.OrganizationId">Book an Appointment</a>
+                </p>
+            }
+        </div>
+
+        <div class="row">
+            <br><br>
+            <h2>
+                Accreditations Offered
+            </h2>
+        </div>
+
+        <!-- ACCREDITATIONS LIST -->
+        <div class="row">
+            <table class="accredlist">
+                <thead>
+                    <tr class="accredlist_tr">
+                        <th class="accredlist_th">Name</th>
+                        <th class="accredlist_th">Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var acc in accreditations)
+                    {
+                        <tr class="accredlist_tr">
+                            <td class="accredlist_td">@acc.Name</td>
+                            <td class="accredlist_td">@acc.Type</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ACTIONS -->
+        <div>
+            @if (User.IsRepresentative())
+            {
+                <br><br>
+                <a class="org_details_btn" asp-controller="Organization"
+                   asp-action="Edit"
+                   asp-route-organizationId="@Model.OrganizationId">Edit Organization</a>
+            }
+            @if (User.IsAdmin())
+            {
+                <br><br>
+                <a class="org_details_btn" asp-controller="Organization"
+                   asp-action="Representatives"
+                   asp-route-organizationId="@Model.OrganizationId">Manage Representatives</a>
+            }
+        </div>
+    </div>
+</div>
+
+
+

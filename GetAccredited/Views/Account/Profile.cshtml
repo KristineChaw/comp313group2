@@ -1,0 +1,23 @@
+﻿@model ApplicationUser
+@{ ViewBag.Title = "My Profile";}
+
+<div class="row">
+    <h2>
+        My Profile
+    </h2>
+</div>
+
+<div class="row">
+    <div class="col span-1-of-1">
+        <div class="profile_details_box">
+            <h1 class="profile_details_title">
+                @Model
+            </h1><br>
+                 <p>Email Address: @Model.Email</p>
+        </div>
+        <div>
+            <a class="profile_details_btn" asp-controller="Account"
+               asp-action="Edit">Edit Profile</a>
+        </div>
+    </div>
+</div>

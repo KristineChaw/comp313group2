@@ -1,0 +1,20 @@
+﻿@model Accreditation
+@{ ViewBag.Title = "Eligiblity Page"; }
+
+<div class="row">
+    <h2>
+        @Model
+    </h2>
+</div>
+
+<div class="row">
+    <div class="col span-1-of-1">
+        <div class="eligibility_box">
+            <h1 class="eligibility_title">
+                @Model.Organization
+            </h1><br>
+            <p>Eligibility Requirements List:</p>
+            <p>@Model.Eligibility</p>
+        </div>
+    </div>
+</div>

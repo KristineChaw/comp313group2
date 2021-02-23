@@ -1,0 +1,66 @@
+﻿@model ApplicationUser
+@{ViewBag.Title = "Home";}
+
+<div class="row login-container">
+    <div class="col span-1-of-2">
+        <div class="container_branding_portal">
+            <img src="~/images/priscilla-du-preez-nNMBa7Y1Ymk-unsplash-rep.png" class="banner" alt="getAccredited banner">
+            <div class="content">
+                <h1>GetAccredited - Representative Portal</h1><br>
+                <p><i>Welcome back @User.Identity.Name!</i></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col span-1-of-2">
+        <div class="box">
+            <h1 class="title_representative">
+                Recently Added:
+            </h1><br>
+            <p class="p_representative">Organization: CIPS/CTAB</p>
+            <p class="p_representative">Skill Type: Software Engineering</p>
+        </div>
+        <div>
+            <a asp-controller="Organization"
+               asp-action="Display"
+               asp-route-organizationId="@Model.OrganizationId" class="btn_portal">Go to Organization Page</a>
+        </div>
+
+        <div class="box">
+            <h1 class="title_representative">
+                Newest Accreditation:
+            </h1><br>
+            <p class="p_representative">Accreditation: CIPS/CTAB</p>
+            <p class="p_representative">Added: Dec 25, 2020 09:00 AM</p>
+        </div>
+        <div>
+            <a asp-controller="Accreditation"
+               asp-action="List" class="btn_portal">Manage Accreditations</a>
+        </div>
+
+        <div class="box">
+            <h1 class="title_representative">
+                Upcoming Appointment:
+            </h1><br>
+            <p class="p_representative">Student: Leroy Jenkins</p>
+            <p class="p_representative">Accreditation: CIPS/CTAB</p>
+            <p class="p_representative">Details: Dec 25, 2020 09:00 AM; 16 Jade St. MidTown Toronto</p>
+        </div>
+        <div>
+            <a asp-controller="Appointment"
+               asp-action="List" class="btn_portal">Manage Appointments</a>
+        </div>
+
+        <div class="box">
+            <h1 class="title_representative">
+                Requests:
+            </h1><br>
+            <p class="p_representative">Rescheduling Requests: 13</p>
+            <p class="p_representative">Cancellation Requests: 3</p>
+        </div>
+        <div>
+            <a asp-controller="Appointment"
+               asp-action="Requests" class="btn_portal">View Requests</a>
+        </div>
+    </div>
+</div>

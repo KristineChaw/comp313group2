@@ -1,0 +1,41 @@
+﻿@model ApplicationUser
+@{
+    ViewBag.Title = "Edit Profile";
+}
+
+<div class="row">
+    <h2>
+        Edit Profile
+    </h2>
+</div>
+
+<div class="row org-container">
+    <form asp-controller="Account" asp-action="Edit" method="post">
+        <table>
+            <!-- First Name -->
+            <tr>
+                <td>First Name:</td>
+                <td><input asp-for="FirstName" type="text" required /></td>
+            </tr>
+
+            <!-- Last Name -->
+            <tr>
+                <td>Last Name:</td>
+                <td><input asp-for="LastName" type="text" required /></td>
+            </tr>
+
+            <!-- Email Address -->
+            <tr>
+                <td>Email Address:</td>
+                <td><input asp-for="Email" type="text" required /></td>
+            </tr>
+
+            <!-- Submit Button -->
+            <tr>
+                <td>
+                    <input type="submit" value="Save Changes" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

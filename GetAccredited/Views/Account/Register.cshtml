@@ -1,0 +1,70 @@
+﻿@model RegisterViewModel
+@{ViewBag.Title = "Registration";}
+
+<div class="row">
+    <h2>
+        Create a @Model.Role account
+    </h2>
+</div>
+
+<div class="row form-container">
+    <form asp-controller="Account" asp-action="Register" method="post">
+        <!-- Hidden input(s) -->
+        <input asp-for="Role" type="hidden" />
+
+        <table>
+            <!-- Organization ID (CODE) -->
+            @if (Model.Role == Utility.ROLE_REP)
+            {
+                <tr>
+                    <td>Registration Code:</td>
+                    <td><input asp-for="User.OrganizationId" type="text" required title="This is the code you received from us." /></td>
+                </tr>
+            }
+
+            <!-- User name -->
+            <tr>
+                <td>User name:</td>
+                <td><input asp-for="User.UserName" type="text" required /></td>
+            </tr>
+
+            <!-- First name -->
+            <tr>
+                <td>First name:</td>
+                <td><input asp-for="User.FirstName" type="text" required /></td>
+            </tr>
+
+            <!-- Last name -->
+            <tr>
+                <td>Last name:</td>
+                <td><input asp-for="User.LastName" type="text" required /></td>
+            </tr>
+
+            <!-- Email address -->
+            <tr>
+                <td>Email address:</td>
+                <td><input asp-for="User.Email" type="email" required /></td>
+            </tr>
+
+            <!-- Password -->
+            <tr>
+                <td>Password:</td>
+                <td><input asp-for="Password" type="password" onchange="validatePassword()" required /></td>
+            </tr>
+
+            <!-- Confirm password -->
+            <tr>
+                <td>Confirm password:</td>
+                <td><input id="confirm_password" type="password" onchange="validatePassword()" required /></td>
+            </tr>
+
+            <!-- Submit button -->
+            <tr>
+                <td><input type="submit" value="Register" /></td>
+            </tr>
+        </table>
+        <text>Already have an account? Click <a asp-controller="Account" asp-action="Login">here</a> to log in.</text>
+    </form>
+</div>
+
+    

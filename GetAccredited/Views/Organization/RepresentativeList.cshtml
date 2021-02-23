@@ -1,0 +1,72 @@
+﻿@model RepresentativesViewModel
+@{ ViewBag.Title = "Manage Representatives"; }
+
+<div class="row">
+    <h2>
+        Manage Representatives for @Model.Organization
+    </h2>
+</div>
+
+<div class="row">
+    @if (Model.Representatives.Any())
+    {
+        <table class="replist">
+            <thead>
+                <tr class="replist_tr">
+                    <th class="replist_th">Name</th>
+                    <th class="replist_th">Email Address</th>
+                    <th class="replist_th">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var rep in Model.Representatives)
+                {
+                    <tr class="replist_tr">
+                        <td class="replist_td">@rep.ToString()</td>
+                        <td class="replist_td">@rep.Email</td>
+                        <td class="replist_td">
+                            <a class="unimplemented" title="Unimplemented">Edit</a> |
+                            <a class="unimplemented" title="Unimplemented">Remove</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <center>This organization currently has no representatives.</center>
+    }
+</div>
+
+<div class="row">
+    <br><br>
+    <h2>
+        Invite a representative
+    </h2>
+</div>
+
+<div class="row rep-container">
+    <form asp-controller="Organization" asp-action="Invite" method="post">
+        <input asp-for="Organization.OrganizationId" type="hidden" />
+        <table>
+            <!-- Email -->
+            <tr>
+                <td>Email:</td>
+                <td><input asp-for="Email" type="email" required /></td>
+            </tr>
+
+            <!-- Verify email is correct -->
+            <tr>
+                <td colspan="2"><input type="checkbox" required /><span> I am certain that the email address provided is valid</span></td>
+            </tr>
+
+            <!-- Invite button -->
+            <tr>
+                <td> <input type="submit" value="Invite" /> </td>
+            </tr>
+        </table>
+
+    </form>
+</div>

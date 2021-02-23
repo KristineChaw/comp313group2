@@ -1,0 +1,43 @@
+﻿@model Accreditation
+@{
+    bool isCreate = Model.AccreditationId == 0;
+    ViewBag.Title = isCreate ? "Create an Accreditation" : "Edit Accreditation";
+}
+
+<div class="row">
+    <h2>
+        @(isCreate ? "Create an Accreditation" : "Edit Accreditation")
+    </h2>
+</div>
+
+<div class="row accred-container">
+    <form asp-controller="Accreditation" asp-action="Save" method="post">
+        <input asp-for="AccreditationId" type="hidden" />
+
+        <table>
+            <tr>
+                <td>Accreditation name:</td>
+                <td><input asp-for="Name" type="text" required /></td>
+            </tr>
+            <tr>
+                <td>Type:</td>
+                <td>
+                    <select asp-for="Type" required>
+                        <option value="">Select type</option>
+                        @foreach (var accreditation in Accreditation.GetTypes())
+                        {
+                            <option value="@accreditation">@accreditation</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="accred_elig_label">Eligibility:</td>
+                <td><textarea class="accred_elig" asp-for="Eligibility" required></textarea></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value=@(isCreate ? "Create" : "Save") /></td>
+            </tr>
+        </table>
+    </form>
+</div>

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Organization>
+@{ViewBag.Title = "Organizations"; }
+
+<div class="row">
+    <h2>
+        Organization List
+    </h2>
+</div>
+
+<div class="row">
+    <table class="orglist">
+        <thead>
+            <tr class="orglist_tr">
+                @if (User.IsAdmin())
+                {
+                    <th class="orglist_th">ID</th>
+                }
+                <th class="orglist_th">Name</th>
+                <th class="orglist_th">Acronym</th>
+                <th class="orglist_th">Website</th>
+                <th class="orglist_th">Actions</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (Organization org in Model)
+            {
+                <tr class="orglist_tr">
+                    @if (User.IsAdmin())
+                    {
+                        <td class="orglist_td">@org.OrganizationId</td>
+                    }
+                    <td class="orglist_td">@org.Name</td>
+                    <td class="orglist_td">@org.Acronym</td>
+                    <td class="orglist_td"><a class="orglist_url" href="@org.WebsiteUrl" target="_blank" title="Open website in a new tab">@org.WebsiteUrl</a></td>
+                    <td class="orglist_td">
+                        <a class="orglist_crud" asp-controller="Organization"
+                           asp-action="Display"
+                           asp-route-organizationId="@org.OrganizationId">View Details</a>
+                        @if (User.IsAdmin())
+                        {
+                            <text>|</text>
+                            <a class="orglist_crud" asp-controller="Organization"
+                               asp-action="Representatives"
+                               asp-route-organizationId="@org.OrganizationId">Manage Representatives</a>
+                            <text>|</text>
+                            <a class="unimplemented" title="Unimplemented">Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (User.IsAdmin())
+    {
+        <div class="row">
+            <a class="btn_orglist" asp-controller="Organization" asp-action="Create">Create an Organization</a>
+        </div>
+    }
+</div>

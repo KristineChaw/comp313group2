@@ -1,0 +1,97 @@
+﻿@model PaymentViewModel
+@{ ViewBag.Title = "Payment"; }
+
+<div class="row">
+    <h2>
+        Payment Details
+    </h2>
+</div>
+
+<div class="row">
+    <div class="col span-1-of-1">
+        <div class="payment_details_box">
+            <h1 class="payment_details_title">
+                Summary
+            </h1><br>
+            <p>Organization: @Model.Accreditation.Organization</p>
+            <p>Accreditation: @Model.Accreditation</p>
+            <p>Date: @Model.Appointment.Date.ToString("MMMM d, yyyy")</p>
+            <p>Time: @($"{Model.Appointment.Start:h:mm tt}-{Model.Appointment.End:h:mm tt}")</p><br>
+            <h1 class="payment_details_title">
+                Total: <b>$250.00</b>
+            </h1>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <br>
+    <br>
+    <h2>
+        Payment Method
+    </h2>
+</div>
+
+<div class="row pay-container">
+    <form asp-controller="Appointment" asp-action="CompleteBooking" method="post">
+        <!-- Hidden Inputs -->
+        <input asp-for="Accreditation.AccreditationId" type="hidden" />
+        <input asp-for="Appointment.AppointmentId" type="hidden" />
+
+        <table>
+            <!-- Payment Option -->
+            <tr>
+                <td>Payment option:</td>
+                <td>
+                    <input asp-for="Card.IsCredit" type="radio" value="true" required /> <label>Credit</label>
+                    <input asp-for="Card.IsCredit" type="radio" value="false" required /> <label>Debit</label>
+                </td>
+            </tr>
+
+            <!-- Card Holder Name -->
+            <tr>
+                <td>Card holder name:</td>
+                <td><input asp-for="Card.Holder" type="text" required /></td>
+            </tr>
+
+            <!-- Card Number -->
+            <tr>
+                <td>Card number:</td>
+                <td>
+                    <input asp-for="Card.Number" type="text" pattern="[0-9\s]{13,19}" maxlength=19 required
+                           placeholder="13-19 digits" />
+                </td>
+            </tr>
+
+            <!-- Expiry -->
+            <tr>
+                <td>Expiry date:</td>
+                <td><input asp-for="Card.Expiry" type="month" required /></td>
+            </tr>
+
+            <!-- Security Code -->
+            <tr>
+                <td>CVC/CVV:</td>
+                <td>
+                    <input asp-for="Card.Code" type="text" pattern="[0-9]{3}" maxlength=3 required
+                           placeholder="3-digit code" />
+                </td>
+            </tr>
+
+            <!-- Save card info checkbox -->
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input asp-for="SaveInfo" type="checkbox" />
+                    <label>Save card information for future payments</label>
+                </td>
+            </tr>
+
+            <!-- Submit Button -->
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" value="Complete Booking" /></td>
+            </tr>
+        </table>
+    </form>
+</div>

@@ -1,0 +1,39 @@
+﻿@{ViewBag.Title = "Home";}
+
+<div class="row login-container">
+    <div class="col span-1-of-2">
+        <div class="container_branding_portal">
+            <img src="~/images/fa-barboza-yuqCAKrbjyE-unsplash.png" class="banner" alt="getAccredited banner">
+            <div class="content">
+                <h1>GetAccredited - Student Portal</h1><br>
+                <p><i>Welcome back @User.Identity.Name!</i></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col span-1-of-2">
+        <div class="box">
+            <h1 class="title">
+                Newest Accreditation:
+            </h1><br>
+            <p>Accreditation: CIPS/CTAB</p>
+            <p>Skill Type: Software Engineering</p>
+            <p>Location: Toronto-based</p>
+        </div>
+        <div>
+            <a asp-controller="Accreditation" asp-action="BrowseAccreditations" class="btn_portal">Browse Accreditations</a>
+        </div>
+
+        <div class="box">
+            <h1 class="title">
+                My Next Appointment:
+            </h1><br>
+            <p>Organization: CIPS/CTAB</p>
+            <p>When: Dec 25, 2020 09:00 AM</p>
+            <p>Where: 16 Jade St. MidTown Toronto</p>
+        </div>
+        <div>
+            <a asp-controller="Appointment" asp-action="MyAppointments" class="btn_portal">View Appointments</a>
+        </div>
+    </div>
+</div>

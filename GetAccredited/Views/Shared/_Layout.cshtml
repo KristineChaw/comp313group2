@@ -1,0 +1,77 @@
+﻿@inject Microsoft.Extensions.Configuration.IConfiguration configuration
+@{
+    var appTitle = configuration["Title"];
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get Accredited Appointment Booking Application">
+
+    <script src="~/js/scripts.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css" asp-append-version="true">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;1,300&display=swap" rel="stylesheet" asp-append-version="true">
+    <link rel="icon" href="~/images/icon.png" />
+    <title>@ViewBag.Title | @appTitle</title>
+</head>
+
+<body>
+    <!-- Navigation Here -->
+    <header>
+        <nav>
+            <div class="navbar">
+                <a asp-controller="Home" asp-action="Index" class="logo">
+                    <strong title="Home"><span class="logo-accent">get</span>Accredited</strong>
+                </a>
+                <ul class="main-nav">
+                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    @if (User.IsStudent())
+                    {
+                        <li><a asp-controller="Account" asp-action="Profile">Profile</a></li>
+                        <li><a asp-controller="Appointment" asp-action="MyAppointments">Appointments</a></li>
+                        <li><a asp-controller="Accreditation" asp-action="BrowseAccreditations">Accreditations</a></li>
+                        <li><a asp-controller="Organization" asp-action="List">Organizations</a></li>
+                    }
+                    @if (User.IsRepresentative())
+                    {
+                        <li><a asp-controller="Organization"
+                               asp-action="Display"
+                               asp-route-organizationId="@((await userManager.GetUserAsync(User)).OrganizationId)">My Organization</a></li>
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-controller="Account" asp-action="Logout">Logout</a></li>
+                    }
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Body -->
+    <section>
+        <!-- Message -->
+        @if (TempData["message"] != null)
+        {
+            <div class="row message">
+                <ul><li>@TempData["message"]</li></ul>
+            </div>
+        }
+
+        <!-- Errors -->
+        <div class="row validation">
+            <div asp-validation-summary="All"></div>
+        </div>
+
+        @RenderBody()
+    </section>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>© Group 2 | COMP 313 SEC 001 W21</p>
+    </div>
+</body>
+</html>

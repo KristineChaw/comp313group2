@@ -1,0 +1,39 @@
+﻿@{ViewBag.Title = "Home";}
+
+<div class="row login-container">
+    <div class="col span-1-of-2">
+        <div class="container_branding_portal">
+            <img src="~/images/priscilla-du-preez-nNMBa7Y1Ymk-unsplash-adm.png" class="banner" alt="getAccredited banner">
+            <div class="content">
+                <h1>GetAccredited - Admin Portal</h1><br>
+                <p><i>Welcome back @User.Identity.Name!</i></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col span-1-of-2">
+        <div class="box">
+            <h1 class="title">
+                Newest Organization:
+            </h1><br>
+            <p>Organization: CIPS/CTAB</p>
+            <p>Skill Type: Software Engineering</p>
+            <p>Location: Toronto-based</p>
+        </div>
+        <div>
+            <a asp-controller="Organization" asp-action="List" class="btn_portal">Manage Organizations</a>
+        </div>
+
+        <div class="box">
+            <h1 class="title">
+                Latest Member:
+            </h1><br>
+            <p>Name: Jeffrey Smith</p>
+            <p>Program: Software Engineering Technology</p>
+            <p>College: Centennial College - Progress</p>
+        </div>
+        <div>
+            <a href="#" class="btn_portal unimplemented" title="Unimplemented">Manage Users</a>
+        </div>
+    </div>
+</div>

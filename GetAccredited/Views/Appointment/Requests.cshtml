@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Request>
+@{ ViewBag.Title = "Requests"; }
+
+<div class="row">
+    <h2>
+        Requests
+    </h2>
+</div>
+
+<div class="row">
+    <table class="reqlist">
+        <thead>
+            <tr class="reqlist_tr">
+                <th class="reqlist_th">Student</th>
+                <th class="reqlist_th">Details</th>
+                <th class="reqlist_th">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var request in Model)
+            {
+                <tr class="reqlist_tr">
+                    @{ ApplicationUser user = await userManager.FindByIdAsync(request.Booking.StudentId);
+                        string details = (request.IsCancel) ? "Cancellation Request" :
+                            $"Reschedule from {request.Booking.Appointment} to {request.NewAppointment}"; }
+                    <td class="reqlist_td">@user</td>
+                    <td class="reqlist_td">@details</td>
+                    <td class="reqlist_td">
+                        <a class="reqlist_crud" asp-controller="Appointment"
+                           asp-action="ApproveRequest"
+                           asp-route-requestId="@request.RequestId">Approve</a> |
+                        <a class="reqlist_crud" asp-controller="Appointment"
+                           asp-action="RejectRequest"
+                           asp-route-requestId="@request.RequestId">Reject</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
