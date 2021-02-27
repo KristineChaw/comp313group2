@@ -16,9 +16,22 @@ namespace GetAccredited.Models.Repositories
 
         public IQueryable<Organization> Organizations => context.Organizations;
 
-        public Organization DeleteOrganization(int organizationId)
+        public Organization DeleteOrganization(string organizationId)
         {
-            throw new NotImplementedException();
+            Organization organization = context.Organizations
+                .FirstOrDefault(o => o.OrganizationId == organizationId);
+
+            if (organization == null)
+            {
+                throw new ArgumentNullException();
+            }
+            else
+            {
+                context.Organizations.Remove(organization);
+                context.SaveChanges();
+            }
+
+            return organization;
         }
 
         public bool OrganizationExists(string id)

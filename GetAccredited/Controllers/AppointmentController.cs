@@ -221,7 +221,7 @@ namespace GetAccredited.Controllers
         {
             var user = await userManager.GetUserAsync(User);
             var bookings = appointmentRepository.Bookings
-                .Where(b => b.StudentId == user.Id)
+                .Where(b => b.StudentId == user.Id && b.Appointment != null)
                 .OrderBy(b => b.Appointment.Date)
                 .ThenBy(b => b.Appointment.Start);
             var appointments = bookings.ToList()
@@ -344,12 +344,11 @@ namespace GetAccredited.Controllers
 
             // clean requests (delete requests associated to expired appointments;
             // delete rescheduling requests to unavailable time slot)
-            requests = requests.Where(r => !r.Booking.Appointment.IsPast);
-            //requests = requests.Where(r => !(!r.IsCancel && r.NewAppointment.IsBooked));
+            requests = requests.Where(r => !r.Booking.Appointment.IsPast && !r.NewAppointment.IsPast);
 
             if (requests == null)
             {
-                TempData["message"] = "There are currently no appointment requests.";
+                TempData["message"] = "There are currently no rescheduling and cancellation requests.";
                 return RedirectToAction("Index", "Home");
             }
             return View("Requests", requests);

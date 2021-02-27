@@ -44,7 +44,9 @@
                                asp-action="Representatives"
                                asp-route-organizationId="@org.OrganizationId">Manage Representatives</a>
                             <text>|</text>
-                            <a class="unimplemented" title="Unimplemented">Delete</a>
+                            <a asp-controller="Organization"
+                               asp-action="Delete"
+                               asp-route-organizationId="@org.OrganizationId">Delete</a>
                         }
                     </td>
                 </tr>

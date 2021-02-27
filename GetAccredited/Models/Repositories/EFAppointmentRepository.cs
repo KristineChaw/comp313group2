@@ -25,6 +25,31 @@ namespace GetAccredited.Models.Repositories
         public IQueryable<Request> Requests => context.Requests.Include("Booking").Include("NewAppointment")
             .Include("Booking.Appointment").Include("Booking.Appointment.Organization");
 
+        public void DeleteAppointmentsByOrganization(Organization organization)
+        {
+            // retrieve all appointments by organization
+            var appointments = context.Appointments.Where(a => a.Organization == organization);
+
+            if (!appointments.Any())
+                return;
+
+            // delete requests and update bookings affected
+            foreach (var app in appointments)
+            {
+                var bookings = context.Bookings.Where(b => b.Appointment == app);
+                var requests = context.Requests.Where(r => r.NewAppointment == app);
+
+                foreach (var b in bookings)
+                    b.Appointment = null;
+
+                context.Requests.RemoveRange(requests);
+            }
+
+            // delete selected appointments
+            context.Appointments.RemoveRange(appointments);
+            context.SaveChanges();
+        }
+
         public void DeleteRequest(Request request)
         {
             if (request != null)
@@ -38,15 +63,18 @@ namespace GetAccredited.Models.Repositories
 
         public void SaveAppointment(Appointment appointment)
         {
+            // attempt to retrieve appointment
             Appointment appointmentEntry = context.Appointments
                 .FirstOrDefault(a => a.AppointmentId == appointment.AppointmentId);
 
+            // if null, add
             if (appointmentEntry == null)
             {
                 context.Appointments.Add(appointment);
             }
             else
             {
+                // update
                 appointmentEntry.Date = appointment.Date;
                 appointmentEntry.Start = appointment.Start;
                 appointmentEntry.End = appointment.End;
@@ -67,6 +95,8 @@ namespace GetAccredited.Models.Repositories
             }
             else
             {
+                bookingEntry.Accreditation = booking.Accreditation;
+                bookingEntry.Appointment = booking.Appointment;
                 bookingEntry.IsCancelled = booking.IsCancelled;
             }
 

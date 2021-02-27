@@ -298,7 +298,6 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcor
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.csprojAssemblyReference.cache
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.AssemblyInfoInputs.cache
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.AssemblyInfo.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.csproj.CoreCompileInputs.cache
@@ -343,3 +342,4 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcor
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.pdb
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.genruntimeconfig.cache
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.csprojAssemblyReference.cache

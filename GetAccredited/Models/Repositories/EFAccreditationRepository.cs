@@ -31,6 +31,28 @@ namespace GetAccredited.Models.Repositories
             return accreditationEntry;
         }
 
+        public void DeleteAccreditationsByOrganization(Organization organization)
+        {
+            // retrieve all accreditations by organization
+            var accreditations = context.Accreditations.Where(a => a.Organization == organization);
+
+            if (!accreditations.Any())
+                return;
+
+            // update bookings affected
+            foreach (var acc in accreditations)
+            {
+                var bookings = context.Bookings.Where(b => b.Accreditation == acc);
+
+                foreach (var b in bookings)
+                    b.Accreditation = null;
+            }
+
+            // delete selected accreditations
+            context.Accreditations.RemoveRange(accreditations);
+            context.SaveChanges();
+        }
+
         public void SaveAccreditation(Accreditation accreditation)
         {
             Accreditation accreditationEntry = context.Accreditations.FirstOrDefault(a => a.AccreditationId == accreditation.AccreditationId);
@@ -44,6 +66,7 @@ namespace GetAccredited.Models.Repositories
                 accreditationEntry.Name = accreditation.Name;
                 accreditationEntry.Type = accreditation.Type;
                 accreditationEntry.Eligibility = accreditation.Eligibility;
+                accreditationEntry.CreatorId = accreditation.CreatorId;
             }
 
             context.SaveChanges();

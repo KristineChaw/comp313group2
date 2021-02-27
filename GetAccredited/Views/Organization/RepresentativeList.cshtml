@@ -15,7 +15,7 @@
                 <tr class="replist_tr">
                     <th class="replist_th">Name</th>
                     <th class="replist_th">Email Address</th>
-                    <th class="replist_th">Actions</th>
+                    <th class="replist_th">Action(s)</th>
                 </tr>
             </thead>
 
@@ -26,8 +26,9 @@
                         <td class="replist_td">@rep.ToString()</td>
                         <td class="replist_td">@rep.Email</td>
                         <td class="replist_td">
-                            <a class="unimplemented" title="Unimplemented">Edit</a> |
-                            <a class="unimplemented" title="Unimplemented">Remove</a>
+                            <a asp-controller="Organization"
+                               asp-action="RemoveRepresentative"
+                               asp-route-email="@rep.Email">Remove</a>
                         </td>
                     </tr>
                 }

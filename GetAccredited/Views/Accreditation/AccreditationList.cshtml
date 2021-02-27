@@ -28,7 +28,7 @@
                         <td class="repaccredlist_td">@accreditation</td>
                         <td class="repaccredlist_td">@accreditation.Type</td>
                         <td class="repaccredlist_td">@accreditation.DateCreated.ToString("M/dd/yyyy")</td>
-                        <td class="repaccredlist_td">@(await userManager.FindByIdAsync(accreditation.CreatorId))</td>
+                        <td class="repaccredlist_td">@(accreditation.CreatorId == null ? "user removed": (await userManager.FindByIdAsync(accreditation.CreatorId)).ToString())</td>
                         <td class="repaccredlist_td">
                             <a class="repaccredlist_crud" asp-controller="Accreditation"
                                asp-action="Edit"

@@ -8,6 +8,7 @@ namespace GetAccredited.Models.Repositories
     public interface IAppointmentRepository
     {
         IQueryable<Appointment> Appointments { get; }
+        void DeleteAppointmentsByOrganization(Organization organization);
         void SaveAppointment(Appointment appointment);
         IQueryable<Booking> Bookings { get; }
         void SaveBooking(Booking booking);

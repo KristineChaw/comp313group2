@@ -12,5 +12,7 @@ namespace GetAccredited.Models.Repositories
         void SaveAccreditation(Accreditation accreditation);
 
         Accreditation DeleteAccreditation(int accreditationId);
+
+        void DeleteAccreditationsByOrganization(Organization organization);
     }
 }

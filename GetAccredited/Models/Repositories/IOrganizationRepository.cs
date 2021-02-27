@@ -11,7 +11,7 @@ namespace GetAccredited.Models.Repositories
 
         void SaveOrganization(Organization organization);
 
-        Organization DeleteOrganization(int organizationId);
+        Organization DeleteOrganization(string organizationId);
 
         bool OrganizationExists(string id);
     }
