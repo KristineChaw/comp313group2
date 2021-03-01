@@ -617,6 +617,15 @@ h2 {
     font-weight: 400;
 }
 
+.replist_crud {
+    text-decoration: none;
+    color: #555;
+}
+
+    .replist_crud:hover {
+        text-decoration: underline;
+    }
+
 .rep-container {
     background-color: #fff;
     border-radius: 5px;
