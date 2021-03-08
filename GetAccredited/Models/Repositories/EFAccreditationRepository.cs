@@ -66,6 +66,7 @@ namespace GetAccredited.Models.Repositories
                 accreditationEntry.Name = accreditation.Name;
                 accreditationEntry.Type = accreditation.Type;
                 accreditationEntry.Eligibility = accreditation.Eligibility;
+                accreditationEntry.EligibilityFileURL = accreditation.EligibilityFileURL;
                 accreditationEntry.CreatorId = accreditation.CreatorId;
             }
 

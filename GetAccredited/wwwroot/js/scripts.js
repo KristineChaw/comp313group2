@@ -34,3 +34,37 @@ function dateToString(date) {
     minutes = minutes < 10 ? '0' + minutes : minutes;
     return hours + ':' + minutes + ' ' + ampm;
 }
+
+function validateExtension(element, type) {
+    var imageExtensions = ["jpeg", "jpg", "png"];
+    var docExtensions = ["pdf"];
+    var validExtensions = type == "img" ? imageExtensions : docExtensions;
+
+    var fileExtension = element.value.split(".")[1];
+    if (!validExtensions.includes(fileExtension)) {
+        alert("The specified file cannot be uploaded. Only files with the following extensions are allowed: " + validExtensions.toString() + ".");
+        element.value = "";
+    } else {
+        element.nextElementSibling.hidden = false;
+    }
+}
+
+function eligibilityFileSelected(selected) {
+    var textArea = document.getElementById("Accreditation_Eligibility");
+    textArea.disabled = selected;
+    textArea.value = (selected == true ? "N/A" : "");
+}
+
+function removeFileSelected(element) {
+    var fileInput = document.getElementById("Eligibility");
+    fileInput.value = "";
+    element.hidden = true;
+
+    eligibilityFileSelected(false);
+}
+
+function deleteAccreditationFile(accreditationId) {
+    if (confirm("You may have unsaved changes that will be lost if you decide to proceed with the deletion.\n\nAre you sure you want to permanently delete this file from GetAccredited?")) {
+        window.location.href = "/Accreditation/DeleteFile?accreditationId=" + accreditationId;
+    }
+}

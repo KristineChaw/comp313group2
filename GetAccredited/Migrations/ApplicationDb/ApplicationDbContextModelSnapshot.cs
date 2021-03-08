@@ -35,6 +35,9 @@ namespace GetAccredited.Migrations.ApplicationDb
                     b.Property<string>("Eligibility")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("EligibilityFileURL")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 

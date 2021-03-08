@@ -354,6 +354,53 @@ namespace GetAccredited.Controllers
             return View("Requests", requests);
         }
 
+        [HttpGet]
+        [Authorize(Roles = Utility.ROLE_ADMIN + "," + Utility.ROLE_REP)]
+        public ViewResult VerifyAppointment()
+        {
+            return View("VerifyAppointment");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Utility.ROLE_ADMIN + "," + Utility.ROLE_REP)]
+        public async Task<IActionResult> VerifyAppointment(int trackingNumber)
+        {
+            // check if appointment exists
+            var appointment = appointmentRepository.Appointments
+                .Where(a => a.AppointmentId == trackingNumber)
+                .FirstOrDefault();
+
+            if (appointment == null)
+            {
+                TempData["message"] = $"There is no appointment with tracking number {trackingNumber}.";
+                return RedirectToAction("VerifyAppointment");
+            }
+
+            // check if user is a representative
+            // a representative should only be able to verify appointments booked with their own organization
+            if (User.IsRepresentative())
+            {
+                var rep = await userManager.GetUserAsync(User);
+                if (appointment.Organization.OrganizationId != rep.OrganizationId) // appointment belongs to another organization
+                {
+                    TempData["message"] = "You do not have enough rights to view the details of this appointment.";
+                    return RedirectToAction("VerifyAppointment");
+                }
+            }
+
+            // check if it's not booked
+            if (!appointment.IsBooked)
+            {
+                TempData["message"] = "This appointment is not booked.";
+                return RedirectToAction("VerifyAppointment");
+            }
+
+            // load appointment with booking information
+            return View("AppointmentDetails", appointmentRepository.Bookings
+                .Where(b => b.Appointment == appointment)
+                .First());
+        }
+
         [HttpPost]
         [Authorize(Roles = Utility.ROLE_REP)]
         public async Task<IActionResult> Save(Appointment model)

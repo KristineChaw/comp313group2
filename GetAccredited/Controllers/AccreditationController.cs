@@ -2,10 +2,13 @@
 using GetAccredited.Models.Repositories;
 using GetAccredited.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,13 +20,16 @@ namespace GetAccredited.Controllers
         private UserManager<ApplicationUser> userManager;
         private IOrganizationRepository organizationRepository;
         private IAccreditationRepository accreditationRepository;
+        private IWebHostEnvironment env;
 
         public AccreditationController(UserManager<ApplicationUser> userMgr,
-            IOrganizationRepository organizationRepo, IAccreditationRepository accreditationRepo)
+            IOrganizationRepository organizationRepo, IAccreditationRepository accreditationRepo,
+            IWebHostEnvironment _env)
         {
             userManager = userMgr;
             organizationRepository = organizationRepo;
             accreditationRepository = accreditationRepo;
+            env = _env;
         }
 
         [Authorize(Roles = Utility.ROLE_STUDENT)]
@@ -62,7 +68,10 @@ namespace GetAccredited.Controllers
         [Authorize(Roles = Utility.ROLE_REP)]
         public ViewResult Create()
         {
-            return View("CreateAccreditation", new Accreditation());
+            return View("CreateAccreditation", new AccreditationViewModel()
+            {
+                Accreditation = new Accreditation()
+            });
         }
 
         [Authorize(Roles = Utility.ROLE_REP)]
@@ -82,8 +91,11 @@ namespace GetAccredited.Controllers
         [Authorize(Roles = Utility.ROLE_REP)]
         public ViewResult Edit(int accreditationId)
         {
-            return View("CreateAccreditation", accreditationRepository.Accreditations
-                .FirstOrDefault(a => a.AccreditationId == accreditationId));
+            return View("CreateAccreditation", new AccreditationViewModel()
+            {
+                Accreditation = accreditationRepository.Accreditations
+                .FirstOrDefault(a => a.AccreditationId == accreditationId)
+            });
         }
 
         [Authorize(Roles = Utility.ROLE_STUDENT)]
@@ -105,18 +117,18 @@ namespace GetAccredited.Controllers
 
         [HttpPost]
         [Authorize(Roles = Utility.ROLE_REP)]
-        public async Task<IActionResult> Save(Accreditation model)
+        public async Task<IActionResult> Save(AccreditationViewModel model)
         {
             if (ModelState.IsValid)
             {
                 // accreditation is being created
-                if (model.AccreditationId == 0)
+                if (model.Accreditation.AccreditationId == 0)
                 {
                     var creator = await userManager.GetUserAsync(User);
-                    model.CreatorId = creator.Id;
-                    model.Organization = organizationRepository.Organizations
+                    model.Accreditation.CreatorId = creator.Id;
+                    model.Accreditation.Organization = organizationRepository.Organizations
                         .FirstOrDefault(o => o.OrganizationId == creator.OrganizationId);
-                    model.DateCreated = DateTime.Now;
+                    model.Accreditation.DateCreated = DateTime.Now;
                     TempData["message"] = "Accreditation successfully created.";
                 }
 
@@ -126,11 +138,77 @@ namespace GetAccredited.Controllers
                     TempData["message"] = "Accreditation successfully updated.";
                 }
 
-                accreditationRepository.SaveAccreditation(model);
+                // check if a file is uploaded
+                if (model.Eligibility != null)
+                {
+                    // if there is an existing file, delete it
+                    var fileExists = System.IO.File.Exists(env.WebRootPath + "/data/requirements/" + model.Accreditation.EligibilityFileURL);
+                    if (fileExists)
+                        System.IO.File.Delete(env.WebRootPath + "/data/requirements/" + model.Accreditation.EligibilityFileURL);
+
+                    // upload new file
+                    model.Accreditation.EligibilityFileURL = await UploadFile(model.Eligibility, env.WebRootPath + "/data/requirements/");
+                    model.Accreditation.Eligibility = "N/A";
+                }
+
+                accreditationRepository.SaveAccreditation(model.Accreditation);
                 return RedirectToAction("List");
             }
 
             return View("CreateAccreditation", model);
+        }
+
+        [Authorize(Roles = Utility.ROLE_REP)]
+        public IActionResult DeleteFile(int accreditationId)
+        {
+            var accreditation = accreditationRepository.Accreditations
+                .FirstOrDefault(a => a.AccreditationId == accreditationId);
+
+            if (accreditation == null) // if accreditation does not exist, return to home
+            {
+                TempData["message"] = "This accreditation does not exist.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            // delete file if there is an existing one
+            var fileExists = System.IO.File.Exists(env.WebRootPath + "/data/requirements/" + accreditation.EligibilityFileURL);
+            if (fileExists)
+            {
+                System.IO.File.Delete(env.WebRootPath + "/data/requirements/" + accreditation.EligibilityFileURL);
+
+                // clear EligibilityFileURL property
+                accreditation.EligibilityFileURL = null;
+
+                // save changes
+                accreditationRepository.SaveAccreditation(accreditation);
+
+                TempData["message"] = "Requirements document has been successfully deleted.";
+            }
+            else // there is no file
+            {
+                TempData["message"] = "There is no requirements document associated with this accreditation.";
+            }
+
+            // return to edit view
+            return View("CreateAccreditation", new AccreditationViewModel()
+            {
+                Accreditation = accreditation
+            });
+        }
+
+        private static async Task<string> UploadFile(IFormFile file, string path)
+        {
+            // generate a unique string for the file name
+            string fileName = Guid.NewGuid().ToString() + ".pdf";
+
+            // upload file to data/requirements
+            var filePath = Path.Combine(path, fileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return fileName;
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿@model Accreditation
+﻿@model AccreditationViewModel
 @{
-    bool isCreate = Model.AccreditationId == 0;
+    bool isCreate = Model.Accreditation.AccreditationId == 0;
     ViewBag.Title = isCreate ? "Create an Accreditation" : "Edit Accreditation";
 }
 
@@ -11,18 +11,27 @@
 </div>
 
 <div class="row accred-container">
-    <form asp-controller="Accreditation" asp-action="Save" method="post">
-        <input asp-for="AccreditationId" type="hidden" />
+    <form asp-controller="Accreditation" asp-action="Save" method="post" enctype="multipart/form-data">
+        <input asp-for="Accreditation.AccreditationId" type="hidden" />
 
         <table>
             <tr>
-                <td>Accreditation name:</td>
-                <td><input asp-for="Name" type="text" required /></td>
+                <td><h3>Accreditation Details</h3></td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td>
+                    <input asp-for="Accreditation.Name" type="text" required />
+
+                    <!-- Hidden Inputs -->
+                    <input asp-for="Accreditation.CreatorId" hidden />
+                    <input asp-for="Accreditation.EligibilityFileURL" hidden />
+                </td>
             </tr>
             <tr>
                 <td>Type:</td>
                 <td>
-                    <select asp-for="Type" required>
+                    <select asp-for="Accreditation.Type" required>
                         <option value="">Select type</option>
                         @foreach (var accreditation in Accreditation.GetTypes())
                         {
@@ -31,10 +40,41 @@
                     </select>
                 </td>
             </tr>
+            <!-- Eligibility Requirements -->
             <tr>
-                <td class="accred_elig_label">Eligibility:</td>
-                <td><textarea class="accred_elig" asp-for="Eligibility" required></textarea></td>
+                <td><h3>Eligibility Requirements</h3></td>
             </tr>
+
+            <!-- Manual Insertion -->
+            @if (Model.Accreditation.EligibilityFileURL == null)
+            {
+                <tr>
+                    <td class="accred_elig_label">Type in all eligibility requirements:</td>
+                    <td><textarea class="accred_elig" asp-for="Accreditation.Eligibility" required></textarea></td>
+                </tr>
+            }
+
+            <!-- Upload PDF -->
+            <tr>
+                <td class="accred_elig_label"><i>@(Model.Accreditation.EligibilityFileURL == null ? "OR " : "")</i>Upload a PDF File:</td>
+                <td>
+                    <input asp-for="Eligibility" type="file" accept="application/pdf"
+                           onchange="validateExtension(this, 'doc'); eligibilityFileSelected(true);" />
+                    <button type="button" onclick="removeFileSelected(this)" hidden>Remove</button>
+
+                    @if (Model.Accreditation.EligibilityFileURL != null)
+                    {
+                        <br /> <br />
+                        <span>Warning: Uploading a new eligibility requirements document for this accreditation will overwrite the <a href="~/data/requirements/@Model.Accreditation.EligibilityFileURL" target="_blank" title="View in a new tab">current document</a> saved in the system.</span>
+
+                        <!-- Delete -->
+                        <br /> <br />
+                        <button type="button" onclick="deleteAccreditationFile(@Model.Accreditation.AccreditationId);">Delete File from the System</button>
+                    }
+                </td>
+            </tr>
+
+            <!-- Submit -->
             <tr>
                 <td><input type="submit" value=@(isCreate ? "Create" : "Save") /></td>
             </tr>

@@ -14,6 +14,7 @@ namespace GetAccredited.Models
         public string CreatorId { get; set; }
         public string Type { get; set; }
         public string Eligibility { get; set; }
+        public string EligibilityFileURL { get; set; }
 
         public override string ToString() => Name;
 

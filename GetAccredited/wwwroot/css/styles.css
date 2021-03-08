@@ -1342,3 +1342,8 @@ h2 {
     .reqlist_crud:hover {
         text-decoration: underline;
     }
+
+.pdf {
+    width: 100%;
+    height: 1024px;
+}

@@ -49,7 +49,8 @@ namespace GetAccredited.Migrations.ApplicationDb
                     DateCreated = table.Column<DateTime>(nullable: false),
                     CreatorId = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: true),
-                    Eligibility = table.Column<string>(nullable: true)
+                    Eligibility = table.Column<string>(nullable: true),
+                    EligibilityFileURL = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -1,0 +1,19 @@
+﻿@{ ViewBag.Title = "Verify An Appointment";}
+
+<div class="row">
+    <h2>
+        Verify an Appointment
+    </h2>
+</div>
+
+<div class="row">
+    <p>Retrieve details of an appointment by entering its tracking number. (Note: An appointment's tracking number is its ID.)</p>
+    <br />
+
+    <form asp-controller="Appointment" asp-action="VerifyAppointment" method="post">
+        <label>Tracking Number:</label>
+        <input type="text" name="trackingNumber" pattern="[0-9]+"
+               title="A valid tracking number contains only numeric characters." required />
+        <input type="submit" />
+    </form>
+</div>

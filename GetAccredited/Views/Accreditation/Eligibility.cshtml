@@ -10,11 +10,21 @@
 <div class="row">
     <div class="col span-1-of-1">
         <div class="eligibility_box">
-            <h1 class="eligibility_title">
-                @Model.Organization
-            </h1><br>
-            <p>Eligibility Requirements List:</p>
-            <p>@Model.Eligibility</p>
+            @if (Model.EligibilityFileURL == null)
+            {
+
+                <h1 class="eligibility_title">
+                    @Model.Organization
+                </h1> <hr /><br />
+                <p>If you want to be considered for this accreditation, you must meet the following eligibility requirements before applying:</p> <br />
+                <pre>@Model.Eligibility</pre>
+            }
+            else
+            {
+                <embed class="pdf" src="~/data/requirements/@Model.EligibilityFileURL" type="application/pdf" />
+            }
+
+
         </div>
     </div>
 </div>

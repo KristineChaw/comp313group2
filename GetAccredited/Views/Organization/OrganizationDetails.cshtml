@@ -22,7 +22,7 @@
             @if (User.IsStudent())
             {
                 <p>
-                    <a  class="orgdetails_crud" asp-controller="Appointment"
+                    <a  class="orgdetails_url" asp-controller="Appointment"
                        asp-action="BookAppointment"
                        asp-route-organizationId="@Model.OrganizationId">Book an Appointment</a>
                 </p>

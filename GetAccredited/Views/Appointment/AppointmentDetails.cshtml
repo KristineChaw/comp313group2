@@ -1,0 +1,33 @@
+﻿@model Booking
+@{ ViewBag.Title = $"Appointment #{Model.Appointment.AppointmentId}";}
+
+<div class="row">
+    <h2>
+        @ViewBag.Title Details
+    </h2>
+</div>
+
+<div class="row">
+    @if (User.IsAdmin())
+    {
+        <p>Organization: @Model.Appointment.Organization.Name</p>
+    }
+    Accreditation: @Model.Accreditation.Name <br />
+    Student: @((await userManager.FindByIdAsync(Model.StudentId)).ToString()) <br />
+    Date: @Model.Appointment.Date.ToString("MMMM d, yyyy") <br />
+    From: @Model.Appointment.Start.ToString("h:mm tt") <br />
+    To: @Model.Appointment.End.ToString("h:mm tt") <br />
+
+    <br /><hr /><br />
+</div>
+
+<div class="row">
+    <p>Retrieve details of another appointment by entering its tracking number.</p>
+    <br />
+
+    <form asp-controller="Appointment" asp-action="VerifyAppointment" method="post">
+        <label>Tracking Number:</label>
+        <input type="text" name="trackingNumber" />
+        <input type="submit" />
+    </form>
+</div>

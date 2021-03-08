@@ -1,5 +1,6 @@
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\GetAccredited.exe
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\css\styles.css
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\data\requirements\1e3af272-2faa-4a96-851d-ad631cc459ae.pdf
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\images\fa-barboza-yuqCAKrbjyE-unsplash.png
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\images\icon.png
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\images\photo-1486406146926-c627a92ad1ab.png

@@ -171,6 +171,12 @@ C:\Users\John\source\repos\COMP 231\Comp231Group6\GetAccredited\GetAccredited\ob
 C:\Users\John\source\repos\COMP 231\Comp231Group6\GetAccredited\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.genruntimeconfig.cache
 C:\Users\John\source\repos\COMP 231\Comp231Group6\GetAccredited\GetAccredited\bin\Debug\netcoreapp3.1\appsettings.production.json
 C:\Users\John\source\repos\COMP 231\Comp231Group6\GetAccredited\GetAccredited\bin\Debug\netcoreapp3.1\Properties\ServiceDependencies\getAccredited - Web Deploy\profile.arm.json
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.AssemblyInfoInputs.cache
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.AssemblyInfo.cs
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.csproj.CoreCompileInputs.cache
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.RazorAssemblyInfo.cache
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.RazorAssemblyInfo.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\appsettings.production.json
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\GetAccredited.exe
@@ -298,12 +304,6 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcor
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.AssemblyInfoInputs.cache
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.AssemblyInfo.cs
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.csproj.CoreCompileInputs.cache
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.RazorAssemblyInfo.cache
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.RazorAssemblyInfo.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\staticwebassets\GetAccredited.StaticWebAssets.Manifest.cache
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\staticwebassets\GetAccredited.StaticWebAssets.xml
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\scopedcss\bundle\GetAccredited.styles.css
@@ -318,6 +318,7 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcor
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Accreditation\Browse.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Accreditation\CreateAccreditation.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Accreditation\Eligibility.cshtml.g.cs
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Appointment\AppointmentDetails.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Appointment\AppointmentList.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Appointment\BookAppointment.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Appointment\CreateAppointment.cshtml.g.cs
@@ -325,6 +326,7 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcor
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Appointment\Requests.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Appointment\Reschedule.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Appointment\UserAppointments.cshtml.g.cs
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Appointment\VerifyAppointment.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Home\Admin.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Home\Representative.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Home\Student.cshtml.g.cs

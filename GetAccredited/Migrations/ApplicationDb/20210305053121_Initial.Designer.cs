@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetAccredited.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201201233019_Initial")]
+    [Migration("20210305053121_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,9 @@ namespace GetAccredited.Migrations.ApplicationDb
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Eligibility")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EligibilityFileURL")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
