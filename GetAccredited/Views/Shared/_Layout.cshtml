@@ -38,9 +38,13 @@
                     }
                     @if (User.IsRepresentative())
                     {
-                        <li><a asp-controller="Organization"
+                        <li>
+                            <a asp-controller="Organization"
                                asp-action="Display"
-                               asp-route-organizationId="@((await userManager.GetUserAsync(User)).OrganizationId)">My Organization</a></li>
+                               asp-route-organizationId="@((await userManager.GetUserAsync(User)).OrganizationId)">My Organization</a>
+                        </li>
+                        <li><a asp-controller="Appointment" asp-action="List">Appointments</a></li>
+                        <li><a asp-controller="Accreditation" asp-action="List">Accreditations</a></li>
                     }
                     @if (User.Identity.IsAuthenticated)
                     {

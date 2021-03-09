@@ -68,3 +68,21 @@ function deleteAccreditationFile(accreditationId) {
         window.location.href = "/Accreditation/DeleteFile?accreditationId=" + accreditationId;
     }
 }
+
+function deleteOrganization(organizationId) {
+    if (confirm("You are about to permanently delete an organization.\n\nAll appointments, accreditations, and representatives associated with this organization shall also be deleted.\n\nClick \"OK\" to proceed with the deletion.")) {
+        window.location.href = "/Organization/Delete?organizationId=" + organizationId;
+    }
+}
+
+function deleteRepresentative(repEmail) {
+    if (confirm("You are about to remove a representative from an organization.\n\nThe removal will result to the permanent deletion of the representative account.\n\nClick \"OK\" to proceed.")) {
+        window.location.href = "/Organization/RemoveRepresentative?email=" + repEmail;
+    }
+}
+
+function deleteAccreditation(accreditationId) {
+    if (confirm("You are about to permanently delete an accreditation.\n\nIf the accreditation has an eligibility requirements file, that file will be deleted as well.\n\nClick \"OK\" to proceed with the deletion.")) {
+        window.location.href = "/Accreditation/Delete?accreditationId=" + accreditationId;
+    }
+}

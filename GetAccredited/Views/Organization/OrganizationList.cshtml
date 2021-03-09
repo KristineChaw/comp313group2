@@ -44,9 +44,13 @@
                                asp-action="Representatives"
                                asp-route-organizationId="@org.OrganizationId">Manage Representatives</a>
                             <text>|</text>
-                            <a class="orglist_crud" asp-controller="Organization"
-                               asp-action="Delete"
-                               asp-route-organizationId="@org.OrganizationId">Delete</a>
+                            <a class="orglist_crud" href="javascript:deleteOrganization('@org.OrganizationId')">Delete</a>
+                        }
+                        @if (User.IsStudent())
+                        {
+                            <text>|</text>
+                            <a class="orglist_crud" asp-controller="Appointment" asp-action="BookAppointment"
+                               asp-route-organizationId="@org.OrganizationId">Book Appointment</a>
                         }
                     </td>
                 </tr>

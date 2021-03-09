@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,8 @@ namespace GetAccredited.Models
         public const string ROLE_ADMIN = "administrator";
         public const string ROLE_STUDENT = "student";
         public const string ROLE_REP = "representative";
+
+        public const string REQUIREMENTS_DIR = "/data/requirements/";
 
         private static RoleManager<IdentityRole> roleManager;
         private static UserManager<ApplicationUser> userManager;
@@ -230,6 +233,18 @@ namespace GetAccredited.Models
             mail.To.Add(new MailAddress(recipient));
 
             smtpClient.Send(mail);
+        }
+
+        // This method deletes an eligibility requirements file uploaded to an accreditation.
+        public static bool DeleteRequirementsFile(string url, IWebHostEnvironment env)
+        {
+            string file = env.WebRootPath + REQUIREMENTS_DIR + url;
+            if (System.IO.File.Exists(file))
+            {
+                System.IO.File.Delete(file);
+                return true;
+            }
+            return false;
         }
     }
 }

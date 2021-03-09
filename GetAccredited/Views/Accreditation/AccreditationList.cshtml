@@ -32,9 +32,7 @@
                         <td class="repaccredlist_td">
                             <a class="repaccredlist_crud" asp-controller="Accreditation"
                                asp-action="Edit"
-                               asp-route-accreditationId="@accreditation.AccreditationId">Edit</a> | <a class="repaccredlist_crud" asp-controller="Accreditation"
-                                                                                                        asp-action="Delete"
-                                                                                                        asp-route-accreditationId="@accreditation.AccreditationId">Delete</a>
+                               asp-route-accreditationId="@accreditation.AccreditationId">Edit</a> | <a class="repaccredlist_crud"  href="javascript:deleteAccreditation('@accreditation.AccreditationId');">Delete</a>
                         </td>
                     </tr>
                 }

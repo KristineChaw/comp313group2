@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 namespace GetAccredited.Models.Repositories
@@ -9,10 +10,12 @@ namespace GetAccredited.Models.Repositories
     public class EFAccreditationRepository : IAccreditationRepository
     {
         private ApplicationDbContext context;
+        private IWebHostEnvironment env;
 
-        public EFAccreditationRepository(ApplicationDbContext ctx)
+        public EFAccreditationRepository(ApplicationDbContext ctx, IWebHostEnvironment _env)
         {
             context = ctx;
+            env = _env;
         }
 
         public IQueryable<Accreditation> Accreditations => context.Accreditations.Include("Organization");
@@ -24,6 +27,10 @@ namespace GetAccredited.Models.Repositories
 
             if (accreditationEntry != null)
             {
+                // delete eligibility requirements file if there's any
+                if (accreditationEntry.EligibilityFileURL != null)
+                    Utility.DeleteRequirementsFile(accreditationEntry.EligibilityFileURL, env);
+
                 context.Accreditations.Remove(accreditationEntry);
                 context.SaveChanges();
             }
@@ -40,12 +47,16 @@ namespace GetAccredited.Models.Repositories
                 return;
 
             // update bookings affected
+            // and delete eligibility requirements file if there's any
             foreach (var acc in accreditations)
             {
                 var bookings = context.Bookings.Where(b => b.Accreditation == acc);
 
                 foreach (var b in bookings)
                     b.Accreditation = null;
+
+                if (acc.EligibilityFileURL != null)
+                    Utility.DeleteRequirementsFile(acc.EligibilityFileURL, env);
             }
 
             // delete selected accreditations

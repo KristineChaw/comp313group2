@@ -20,9 +20,10 @@
             <tr>
                 <td>&nbsp;</td>
                 <td>
-                    <select asp-for="SearchBy">
-                        <option>Organization</option>
+                    <select asp-for="SearchBy" required>
+                        <option value="">Select a category...</option>
                         <option>Accreditation</option>
+                        <option>Organization</option>
                     </select>
                 </td>
             </tr>

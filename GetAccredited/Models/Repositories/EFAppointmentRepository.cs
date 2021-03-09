@@ -18,7 +18,7 @@ namespace GetAccredited.Models.Repositories
         public IQueryable<Appointment> Appointments => context.Appointments.Include("Organization");
 
         public IQueryable<Booking> Bookings => context.Bookings.Include("Appointment").Include("Accreditation")
-            .Include("Accreditation.Organization");
+            .Include("Appointment.Organization");
 
         public IQueryable<Card> Cards => context.Cards;
 

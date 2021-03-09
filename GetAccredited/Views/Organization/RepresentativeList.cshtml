@@ -26,9 +26,7 @@
                         <td class="replist_td">@rep.ToString()</td>
                         <td class="replist_td">@rep.Email</td>
                         <td class="replist_td">
-                            <a class="replist_crud" asp-controller="Organization"
-                               asp-action="RemoveRepresentative"
-                               asp-route-email="@rep.Email">Remove</a>
+                            <a class="replist_crud" href="javascript:deleteRepresentative('@rep.Email');">Remove</a>
                         </td>
                     </tr>
                 }

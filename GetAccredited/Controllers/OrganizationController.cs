@@ -126,6 +126,7 @@ namespace GetAccredited.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = Utility.ROLE_ADMIN + "," + Utility.ROLE_STUDENT)]
         public ViewResult List()
         {
             return View("OrganizationList", organizationRepository.Organizations.OrderBy(o => o.Name));

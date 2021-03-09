@@ -18,17 +18,19 @@ namespace GetAccredited.Controllers
     public class AccreditationController : Controller
     {
         private UserManager<ApplicationUser> userManager;
+        private IAppointmentRepository appointmentRepository;
         private IOrganizationRepository organizationRepository;
         private IAccreditationRepository accreditationRepository;
         private IWebHostEnvironment env;
 
         public AccreditationController(UserManager<ApplicationUser> userMgr,
             IOrganizationRepository organizationRepo, IAccreditationRepository accreditationRepo,
-            IWebHostEnvironment _env)
+            IAppointmentRepository appointmentRepo, IWebHostEnvironment _env)
         {
             userManager = userMgr;
             organizationRepository = organizationRepo;
             accreditationRepository = accreditationRepo;
+            appointmentRepository = appointmentRepo;
             env = _env;
         }
 
@@ -78,13 +80,44 @@ namespace GetAccredited.Controllers
         public async Task<ViewResult> Delete(int accreditationId)
         {
             var representative = await userManager.GetUserAsync(User);
-            var accreditation = accreditationRepository.DeleteAccreditation(accreditationId);
-            if (accreditation != null)
+            ViewResult result = View("AccreditationList", accreditationRepository.Accreditations
+                    .Where(a => a.Organization.OrganizationId == representative.OrganizationId));
+
+            // check if Accreditation exists
+            var accreditation = accreditationRepository.Accreditations.FirstOrDefault(a => a.AccreditationId == accreditationId);
+            if (accreditation == null)
+            {
+                TempData["message"] = "Failed to delete accreditation because it does not exist.";
+                return result;
+            }
+
+            // check if current user is authorized to delete Accreditation
+            if (representative.OrganizationId != accreditation.Organization.OrganizationId)
+            {
+                TempData["message"] = "You do not have enough rights to delete this accreditation as it does not belong to your organization.";
+                return result;
+            }
+
+            // check if Accreditation is booked
+            // retrieve all appointments
+            var bookings = appointmentRepository.Bookings.Where(b => b.Accreditation == accreditation);
+
+            // check if there are scheduled appointments with this accreditation, don't allow deletion if there's any
+            if (bookings.ToList().Any(b => !b.Appointment.IsPast && b.Appointment.IsBooked))
+            {
+                TempData["message"] = $"{accreditation.Name} was not deleted. An appointment is currently booked with this accreditation.";
+                return result;
+            }
+
+            // delete Accreditation
+            var deletedAccreditation = accreditationRepository.DeleteAccreditation(accreditationId);
+            if (deletedAccreditation != null)
                 TempData["message"] = "Accreditation successfully deleted.";
             else
-                TempData["message"] = "Failed to delete accreditation because it does not exist.";
-            return View("AccreditationList", accreditationRepository.Accreditations
-                .Where(a => a.Organization.OrganizationId == representative.OrganizationId));
+                TempData["message"] = "Failed to delete accreditation due to some unknown error.";
+
+            // return to Accreditation List
+            return result;
         }
 
         [HttpGet]
@@ -142,12 +175,10 @@ namespace GetAccredited.Controllers
                 if (model.Eligibility != null)
                 {
                     // if there is an existing file, delete it
-                    var fileExists = System.IO.File.Exists(env.WebRootPath + "/data/requirements/" + model.Accreditation.EligibilityFileURL);
-                    if (fileExists)
-                        System.IO.File.Delete(env.WebRootPath + "/data/requirements/" + model.Accreditation.EligibilityFileURL);
+                    Utility.DeleteRequirementsFile(model.Accreditation.EligibilityFileURL, env);
 
                     // upload new file
-                    model.Accreditation.EligibilityFileURL = await UploadFile(model.Eligibility, env.WebRootPath + "/data/requirements/");
+                    model.Accreditation.EligibilityFileURL = await UploadFile(model.Eligibility, env.WebRootPath + Utility.REQUIREMENTS_DIR);
                     model.Accreditation.Eligibility = "N/A";
                 }
 
@@ -171,11 +202,8 @@ namespace GetAccredited.Controllers
             }
 
             // delete file if there is an existing one
-            var fileExists = System.IO.File.Exists(env.WebRootPath + "/data/requirements/" + accreditation.EligibilityFileURL);
-            if (fileExists)
+            if (Utility.DeleteRequirementsFile(accreditation.EligibilityFileURL, env))
             {
-                System.IO.File.Delete(env.WebRootPath + "/data/requirements/" + accreditation.EligibilityFileURL);
-
                 // clear EligibilityFileURL property
                 accreditation.EligibilityFileURL = null;
 
