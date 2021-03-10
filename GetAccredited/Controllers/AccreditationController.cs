@@ -120,6 +120,41 @@ namespace GetAccredited.Controllers
             return result;
         }
 
+        [Authorize(Roles = Utility.ROLE_REP)]
+        public IActionResult DeleteRequirementsFile(int accreditationId)
+        {
+            var accreditation = accreditationRepository.Accreditations
+                .FirstOrDefault(a => a.AccreditationId == accreditationId);
+
+            if (accreditation == null) // if accreditation does not exist, return to home
+            {
+                TempData["message"] = "This accreditation does not exist.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            // delete file if there is an existing one
+            if (Utility.DeleteFile(env.WebRootPath + Utility.REQUIREMENTS_DIR + accreditation.EligibilityFileURL))
+            {
+                // clear EligibilityFileURL property
+                accreditation.EligibilityFileURL = null;
+
+                // save changes
+                accreditationRepository.SaveAccreditation(accreditation);
+
+                TempData["message"] = "Requirements document has been successfully deleted.";
+            }
+            else // there is no file
+            {
+                TempData["message"] = "There is no requirements document associated with this accreditation.";
+            }
+
+            // return to edit view
+            return View("CreateAccreditation", new AccreditationViewModel()
+            {
+                Accreditation = accreditation
+            });
+        }
+
         [HttpGet]
         [Authorize(Roles = Utility.ROLE_REP)]
         public ViewResult Edit(int accreditationId)
@@ -175,10 +210,10 @@ namespace GetAccredited.Controllers
                 if (model.Eligibility != null)
                 {
                     // if there is an existing file, delete it
-                    Utility.DeleteRequirementsFile(model.Accreditation.EligibilityFileURL, env);
+                    Utility.DeleteFile(env.WebRootPath + Utility.REQUIREMENTS_DIR + model.Accreditation.EligibilityFileURL);
 
                     // upload new file
-                    model.Accreditation.EligibilityFileURL = await UploadFile(model.Eligibility, env.WebRootPath + Utility.REQUIREMENTS_DIR);
+                    model.Accreditation.EligibilityFileURL = await Utility.UploadFile(model.Eligibility, env.WebRootPath + Utility.REQUIREMENTS_DIR);
                     model.Accreditation.Eligibility = "N/A";
                 }
 
@@ -187,56 +222,6 @@ namespace GetAccredited.Controllers
             }
 
             return View("CreateAccreditation", model);
-        }
-
-        [Authorize(Roles = Utility.ROLE_REP)]
-        public IActionResult DeleteFile(int accreditationId)
-        {
-            var accreditation = accreditationRepository.Accreditations
-                .FirstOrDefault(a => a.AccreditationId == accreditationId);
-
-            if (accreditation == null) // if accreditation does not exist, return to home
-            {
-                TempData["message"] = "This accreditation does not exist.";
-                return RedirectToAction("Index", "Home");
-            }
-
-            // delete file if there is an existing one
-            if (Utility.DeleteRequirementsFile(accreditation.EligibilityFileURL, env))
-            {
-                // clear EligibilityFileURL property
-                accreditation.EligibilityFileURL = null;
-
-                // save changes
-                accreditationRepository.SaveAccreditation(accreditation);
-
-                TempData["message"] = "Requirements document has been successfully deleted.";
-            }
-            else // there is no file
-            {
-                TempData["message"] = "There is no requirements document associated with this accreditation.";
-            }
-
-            // return to edit view
-            return View("CreateAccreditation", new AccreditationViewModel()
-            {
-                Accreditation = accreditation
-            });
-        }
-
-        private static async Task<string> UploadFile(IFormFile file, string path)
-        {
-            // generate a unique string for the file name
-            string fileName = Guid.NewGuid().ToString() + ".pdf";
-
-            // upload file to data/requirements
-            var filePath = Path.Combine(path, fileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            return fileName;
         }
     }
 }

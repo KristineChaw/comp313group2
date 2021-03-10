@@ -29,7 +29,7 @@ namespace GetAccredited.Models.Repositories
             {
                 // delete eligibility requirements file if there's any
                 if (accreditationEntry.EligibilityFileURL != null)
-                    Utility.DeleteRequirementsFile(accreditationEntry.EligibilityFileURL, env);
+                    Utility.DeleteFile(env.WebRootPath + Utility.REQUIREMENTS_DIR + accreditationEntry.EligibilityFileURL);
 
                 context.Accreditations.Remove(accreditationEntry);
                 context.SaveChanges();
@@ -56,7 +56,7 @@ namespace GetAccredited.Models.Repositories
                     b.Accreditation = null;
 
                 if (acc.EligibilityFileURL != null)
-                    Utility.DeleteRequirementsFile(acc.EligibilityFileURL, env);
+                    Utility.DeleteFile(env.WebRootPath + Utility.REQUIREMENTS_DIR + acc.EligibilityFileURL);
             }
 
             // delete selected accreditations

@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -16,7 +18,6 @@ namespace GetAccredited.Models
         public const string ROLE_ADMIN = "administrator";
         public const string ROLE_STUDENT = "student";
         public const string ROLE_REP = "representative";
-
         public const string REQUIREMENTS_DIR = "/data/requirements/";
 
         private static RoleManager<IdentityRole> roleManager;
@@ -25,34 +26,18 @@ namespace GetAccredited.Models
         private const string ADMIN_NAME = "administrator";
         private const string DEFAULT_PASSWORD = "Secret123$";
 
-        public static async Task EnsureRolesCreatedAsync(IApplicationBuilder app)
+        private const string GETACCREDITED_EMAIL = "noreply.getaccredited@gmail.com";
+        private const string GETACCREDITED_EMAIL_PW = "GetAccreditedcomp231";
+
+        // This method deletes an eligibility requirements file uploaded to an accreditation.
+        public static bool DeleteFile(string file)
         {
-            if (roleManager == null)
-                roleManager = app.ApplicationServices.GetRequiredService<RoleManager<IdentityRole>>();
-
-            // create the Administrator role
-            IdentityRole role = await roleManager.FindByNameAsync(ROLE_ADMIN);
-            if (role == null)
+            if (File.Exists(file))
             {
-                role = new IdentityRole(ROLE_ADMIN);
-                await roleManager.CreateAsync(role);
+                File.Delete(file);
+                return true;
             }
-
-            // create the Student role
-            role = await roleManager.FindByNameAsync(ROLE_STUDENT);
-            if (role == null)
-            {
-                role = new IdentityRole(ROLE_STUDENT);
-                await roleManager.CreateAsync(role);
-            }
-
-            // create the Representative role
-            role = await roleManager.FindByNameAsync(ROLE_REP);
-            if (role == null)
-            {
-                role = new IdentityRole(ROLE_REP);
-                await roleManager.CreateAsync(role);
-            }
+            return false;
         }
 
         public static async Task EnsureAdminCreatedAsync(IApplicationBuilder app)
@@ -114,6 +99,92 @@ namespace GetAccredited.Models
                 // create appointments
                 CreateAppointments(abc, def, out Appointment abcApp, out Appointment defApp, context);
             }
+        }
+
+        public static async Task EnsureRolesCreatedAsync(IApplicationBuilder app)
+        {
+            if (roleManager == null)
+                roleManager = app.ApplicationServices.GetRequiredService<RoleManager<IdentityRole>>();
+
+            // create the Administrator role
+            IdentityRole role = await roleManager.FindByNameAsync(ROLE_ADMIN);
+            if (role == null)
+            {
+                role = new IdentityRole(ROLE_ADMIN);
+                await roleManager.CreateAsync(role);
+            }
+
+            // create the Student role
+            role = await roleManager.FindByNameAsync(ROLE_STUDENT);
+            if (role == null)
+            {
+                role = new IdentityRole(ROLE_STUDENT);
+                await roleManager.CreateAsync(role);
+            }
+
+            // create the Representative role
+            role = await roleManager.FindByNameAsync(ROLE_REP);
+            if (role == null)
+            {
+                role = new IdentityRole(ROLE_REP);
+                await roleManager.CreateAsync(role);
+            }
+        }
+
+        public static string GenerateId()
+        {
+            string id = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            while (id.Contains("/") || id.Contains("+"))
+                id = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            return id.Substring(0, 22).ToUpper();
+        }
+
+        public static void SendInviteEmail(string recipient, Organization organization, string inviteLink) // inviteLink is where you want someone to go to register
+        {
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
+
+            smtpClient.Credentials = new System.Net.NetworkCredential(GETACCREDITED_EMAIL, GETACCREDITED_EMAIL_PW);
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.EnableSsl = true;
+
+            MailMessage mail = new MailMessage();
+            mail.Subject = "(noreply) GetAccredited - Invitation to Register as Representative";
+            mail.IsBodyHtml = true;
+
+            mail.Body = $"Dear {recipient},<br/><br/>";
+
+            mail.Body += $"You have been invited to register as a representative for your organization, {organization.Name}, at GetAccredited.";
+
+            mail.Body += $"<br/></br>As a representative, you will be reponsible for managing your organization. This will include " +
+                $"building schedules for student appointments, adding accreditations and corresponding requirements, " +
+                $"and some more.";
+
+            mail.Body += $"<br/><br/>Use code <b>{organization.OrganizationId}</b> to create your account. You can go to this link to start the registration process: <u><a href=\"{inviteLink}\">{inviteLink}</a></u>";
+            mail.Body += $"<br/><br/>GetAccredited, <i>Site Administrator</i>";
+
+            // Setting From and To
+            mail.From = new MailAddress("noreply.getaccredited@gmail.com", "getAccredited-noreply");
+            mail.To.Add(new MailAddress(recipient));
+
+            smtpClient.Send(mail);
+        }
+
+        public static async Task<string> UploadFile(IFormFile file, string path) // path is the destination
+        {
+            // get file extension
+            var ext = Path.GetExtension(file.FileName);
+
+            // generate a unique string for the file name
+            string fileName = Guid.NewGuid().ToString() + ext;
+
+            // upload file to path
+            var filePath = Path.Combine(path, fileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return fileName;
         }
 
         private static void CreateRepresentatives(Organization org1, Organization org2,
@@ -194,57 +265,6 @@ namespace GetAccredited.Models
 
             context.Appointments.AddRange(app1, app2);
             context.SaveChanges();
-        }
-
-        public static string GenerateId()
-        {
-            string id = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-            while (id.Contains("/") || id.Contains("+"))
-                id = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-            return id.Substring(0, 22).ToUpper();
-        }
-
-        public static void SendEmail(string recipient, Organization organization, string host)
-        {
-            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
-
-            smtpClient.Credentials = new System.Net.NetworkCredential("noreply.getaccredited@gmail.com", "GetAccreditedcomp231");
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.EnableSsl = true;
-
-            MailMessage mail = new MailMessage();
-            mail.Subject = "(noreply) GetAccredited - Invitation to Register as Representative";
-            mail.IsBodyHtml = true;
-
-            mail.Body = $"Dear {recipient},<br/><br/>";
-
-            mail.Body += $"You have been invited to register as a representative for your organization, {organization.Name}, at GetAccredited.";
-
-            mail.Body += $"<br/></br>As a representative, you will be reponsible for managing your organization. This will include " +
-                $"building schedules for student appointments, adding accreditations and corresponding requirements, " +
-                $"and some more.";
-
-            string link = $"{host}/Account/Register?role=representative";
-            mail.Body += $"<br/><br/>Use code <b>{organization.OrganizationId}</b> to create your account. You can go to this link to start the registration process: <u><a href=\"{link}\">{link}</a></u>";
-            mail.Body += $"<br/><br/>GetAccredited, <i>Site Administrator</i>";
-
-            // Setting From and To
-            mail.From = new MailAddress("noreply.getaccredited@gmail.com", "getAccredited-noreply");
-            mail.To.Add(new MailAddress(recipient));
-
-            smtpClient.Send(mail);
-        }
-
-        // This method deletes an eligibility requirements file uploaded to an accreditation.
-        public static bool DeleteRequirementsFile(string url, IWebHostEnvironment env)
-        {
-            string file = env.WebRootPath + REQUIREMENTS_DIR + url;
-            if (System.IO.File.Exists(file))
-            {
-                System.IO.File.Delete(file);
-                return true;
-            }
-            return false;
         }
     }
 }

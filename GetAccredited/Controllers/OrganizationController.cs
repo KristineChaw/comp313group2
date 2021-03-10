@@ -54,7 +54,7 @@ namespace GetAccredited.Controllers
             var appointments = appointmentRepository.Appointments.Where(a => a.Organization == organization);
 
             // check if there are scheduled appointments, don't allow deletion if there's any
-            if (appointments.ToList().Any(a => !a.IsPast && a.IsBooked)) // yes
+            if (appointments.ToList().Any(a => !a.IsPast && a.IsBooked))
             {
                 TempData["message"] = $"{organization.Name} was not deleted. The organization currently has at least one scheduled appointment at the moment.";
                 return List();
@@ -115,7 +115,8 @@ namespace GetAccredited.Controllers
             {
                 model.Organization = organizationRepository.Organizations.
                     First(o => o.OrganizationId == model.Organization.OrganizationId);
-                //Utility.SendEmail(model.Email, model.Organization, HttpContext.Request.Host.ToString());
+                var inviteLink = $"{HttpContext.Request.Host}/Account/Register?role=representative";
+                Utility.SendInviteEmail(model.Email, model.Organization, inviteLink);
                 TempData["message"] = $"Email sent to {model.Email}.";
                 return RedirectToAction("Representatives", new
                 {

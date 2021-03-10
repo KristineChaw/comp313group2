@@ -215,6 +215,18 @@ namespace GetAccredited.Controllers
             return View("CreateAppointment", appointment);
         }
 
+        [Authorize(Roles = Utility.ROLE_REP)]
+        public async Task<ViewResult> List()
+        {
+            var representative = await userManager.GetUserAsync(User);
+
+            return View("AppointmentList", appointmentRepository.Appointments
+                .Where(a => a.Organization.OrganizationId == representative.OrganizationId)
+                .OrderBy(a => a.Date)
+                .ThenBy(a => a.Start)
+                .ToList().Where(a => !a.IsPast));
+        }
+
         [HttpGet]
         [Authorize(Roles = Utility.ROLE_STUDENT)]
         public async Task<IActionResult> MyAppointments()
@@ -227,18 +239,6 @@ namespace GetAccredited.Controllers
             var appointments = bookings.ToList()
                 .Where(app => !app.Appointment.IsPast);
             return View("UserAppointments", appointments);
-        }
-
-        [Authorize(Roles = Utility.ROLE_REP)]
-        public async Task<ViewResult> List()
-        {
-            var representative = await userManager.GetUserAsync(User);
-
-            return View("AppointmentList", appointmentRepository.Appointments
-                .Where(a => a.Organization.OrganizationId == representative.OrganizationId)
-                .OrderBy(a => a.Date)
-                .ThenBy(a => a.Start)
-                .ToList().Where(a => !a.IsPast));
         }
 
         [Authorize(Roles = Utility.ROLE_STUDENT)]
