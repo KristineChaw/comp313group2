@@ -49,7 +49,7 @@
             @if (Model.Accreditation.EligibilityFileURL == null)
             {
                 <tr>
-                    <td class="accred_elig_label">Type in all eligibility requirements:</td>
+                    <td class="accred_elig_label">Type in requirements:</td>
                     <td><textarea class="accred_elig" asp-for="Accreditation.Eligibility" required></textarea></td>
                 </tr>
             }
@@ -60,16 +60,18 @@
                 <td>
                     <input asp-for="Eligibility" type="file" accept="application/pdf"
                            onchange="validateExtension(this, 'doc'); eligibilityFileSelected(true);" />
-                    <button type="button" onclick="removeFileSelected(this)" hidden>Remove</button>
+                    <button type="button" class="btn_accred_remove" onclick="removeFileSelected(this)" hidden>Remove</button>
 
                     @if (Model.Accreditation.EligibilityFileURL != null)
                     {
                         <br /> <br />
-                        <span>Warning: Uploading a new eligibility requirements document for this accreditation will overwrite the <a href="~/data/requirements/@Model.Accreditation.EligibilityFileURL" target="_blank" title="View in a new tab">current document</a> saved in the system.</span>
+                        <span class="warning_accred_delete">Warning: Uploading a new eligibility requirements</span><br />
+                        <span class="warning_accred_delete">document for this accreditation will overwrite</span><br />
+                        <span class="warning_accred_delete">the <a href="~/data/requirements/@Model.Accreditation.EligibilityFileURL" target="_blank" title="View in a new tab">current document</a> saved in the system.</span>
 
                         <!-- Delete -->
                         <br /> <br />
-                        <button type="button" onclick="deleteAccreditationFile(@Model.Accreditation.AccreditationId);">Delete File from the System</button>
+                        <button type="button" class="btn_accred_delete" onclick="deleteAccreditationFile(@Model.Accreditation.AccreditationId);">Delete File from the System</button>
                     }
                 </td>
             </tr>
