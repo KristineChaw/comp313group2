@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "nbYXFz7Ben2/wMJ45prJ5uAP0YRgTFZ3PkjzFJJVeaQ4cb4DMhOLbRx9b196ag+Q9rH95hlhKX6XyKNtnFloKQ==",
+  "dgSpecHash": "NOQzx5ipbF7jXNhTWSP8J6DMu+RWy03v6kWThPX7gDBv6LeO7Pj/x2dQKYDdKicpvImf8pXxckG9r6QOz6MJhg==",
   "success": true,
   "projectFilePath": "C:\\Users\\John\\source\\repos\\COMP 313\\comp313group2\\GetAccredited\\GetAccredited.csproj",
   "expectedPackageFiles": [
@@ -82,6 +82,8 @@
     "C:\\Users\\John\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\John\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\John\\.nuget\\packages\\runtime.win-x86.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\John\\.nuget\\packages\\sendgrid\\9.22.0\\sendgrid.9.22.0.nupkg.sha512",
+    "C:\\Users\\John\\.nuget\\packages\\starkbank-ecdsa\\1.2.0\\starkbank-ecdsa.1.2.0.nupkg.sha512",
     "C:\\Users\\John\\.nuget\\packages\\system.appcontext\\4.3.0\\system.appcontext.4.3.0.nupkg.sha512",
     "C:\\Users\\John\\.nuget\\packages\\system.buffers\\4.3.0\\system.buffers.4.3.0.nupkg.sha512",
     "C:\\Users\\John\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
@@ -167,8 +169,7 @@
     "C:\\Users\\John\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\John\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\John\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\John\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
-    "C:\\Users\\John\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.13\\microsoft.netcore.app.host.win-x64.3.1.13.nupkg.sha512"
+    "C:\\Users\\John\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
   ],
   "logs": []
 }

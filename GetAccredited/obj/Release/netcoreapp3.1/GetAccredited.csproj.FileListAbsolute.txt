@@ -345,3 +345,5 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netc
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\GetAccredited.genruntimeconfig.cache
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\Razor\Views\Appointment\AppointmentDetails.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\Razor\Views\Appointment\VerifyAppointment.cshtml.g.cs
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Release\netcoreapp3.1\SendGrid.dll
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Release\netcoreapp3.1\StarkbankEcdsa.dll

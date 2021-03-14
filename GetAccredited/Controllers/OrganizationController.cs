@@ -2,6 +2,7 @@
 using GetAccredited.Models.Repositories;
 using GetAccredited.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -47,7 +48,9 @@ namespace GetAccredited.Controllers
             if (organization == null)
             {
                 TempData["message"] = "No organization deleted. This organization does not exist.";
-                return List();
+                var res = List();
+                res.StatusCode = StatusCodes.Status422UnprocessableEntity;
+                return res;
             }
 
             // retrieve all appointments
@@ -109,15 +112,20 @@ namespace GetAccredited.Controllers
 
         [HttpPost]
         [Authorize(Roles = Utility.ROLE_ADMIN)]
-        public IActionResult Invite(RepresentativesViewModel model)
+        public async Task<IActionResult> Invite(RepresentativesViewModel model)
         {
             if (ModelState.IsValid)
             {
                 model.Organization = organizationRepository.Organizations.
                     First(o => o.OrganizationId == model.Organization.OrganizationId);
                 var inviteLink = $"{HttpContext.Request.Host}/Account/Register?role=representative";
-                Utility.SendInviteEmail(model.Email, model.Organization, inviteLink);
-                TempData["message"] = $"Email sent to {model.Email}.";
+                if (await Utility.SendInviteEmail(model.Email, model.Organization, inviteLink))
+                {
+                    TempData["message"] = $"Email sent to {model.Email}.";
+                } else
+                {
+                    TempData["message"] = $"Something went wrong. No invitation email has been sent.";
+                }
                 return RedirectToAction("Representatives", new
                 {
                     organizationId = model.Organization.OrganizationId
@@ -145,7 +153,7 @@ namespace GetAccredited.Controllers
             {
                 // set appropriate message
                 TempData["message"] = $"No representative removed. There does not exist a representative with the email {email}.";
-                return RedirectToAction("Index", "Home");
+                return UnprocessableEntity();
             }
 
             // retrieve organization of the rep

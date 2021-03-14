@@ -33,17 +33,14 @@ namespace GetAccredited.Models.Repositories
             if (!appointments.Any())
                 return;
 
-            // delete requests and update bookings affected
-            foreach (var app in appointments)
-            {
-                var bookings = context.Bookings.Where(b => b.Appointment == app);
-                var requests = context.Requests.Where(r => r.NewAppointment == app);
+            // deleted requests associated with this organization
+            var requests = context.Requests.Where(r => r.Booking.Appointment.Organization == organization);
+            context.Requests.RemoveRange(requests);
 
-                foreach (var b in bookings)
-                    b.Appointment = null;
-
-                context.Requests.RemoveRange(requests);
-            }
+            // update bookings affected
+            var bookings = context.Bookings.Where(b => b.Appointment.Organization == organization);
+            foreach (var booking in bookings)
+                booking.Appointment = null;
 
             // delete selected appointments
             context.Appointments.RemoveRange(appointments);

@@ -159,11 +159,12 @@ namespace GetAccredited.Controllers
         [Authorize(Roles = Utility.ROLE_REP)]
         public ViewResult Edit(int accreditationId)
         {
-            return View("CreateAccreditation", new AccreditationViewModel()
+            var res = View("CreateAccreditation", new AccreditationViewModel()
             {
                 Accreditation = accreditationRepository.Accreditations
                 .FirstOrDefault(a => a.AccreditationId == accreditationId)
             });
+            return res;
         }
 
         [Authorize(Roles = Utility.ROLE_STUDENT)]

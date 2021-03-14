@@ -65,7 +65,7 @@ function removeFileSelected(element) {
 
 function deleteAccreditationFile(accreditationId) {
     if (confirm("You may have unsaved changes that will be lost if you decide to proceed with the deletion.\n\nAre you sure you want to permanently delete this file from GetAccredited?")) {
-        window.location.href = "/Accreditation/DeleteFile?accreditationId=" + accreditationId;
+        window.location.href = "/Accreditation/DeleteRequirementsFile?accreditationId=" + accreditationId;
     }
 }
 

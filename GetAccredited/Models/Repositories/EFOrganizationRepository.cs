@@ -23,7 +23,7 @@ namespace GetAccredited.Models.Repositories
 
             if (organization == null)
             {
-                throw new ArgumentNullException();
+                return null;
             }
             else
             {

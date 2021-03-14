@@ -344,4 +344,6 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcor
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.pdb
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.genruntimeconfig.cache
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\SendGrid.dll
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\StarkbankEcdsa.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.csprojAssemblyReference.cache

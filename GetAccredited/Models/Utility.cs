@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,7 +29,7 @@ namespace GetAccredited.Models
         private const string DEFAULT_PASSWORD = "Secret123$";
 
         private const string GETACCREDITED_EMAIL = "noreply.getaccredited@gmail.com";
-        private const string GETACCREDITED_EMAIL_PW = "GetAccreditedcomp231";
+        private const string SENDGRID_APIKEY = "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";
 
         // This method deletes an eligibility requirements file uploaded to an accreditation.
         public static bool DeleteFile(string file)
@@ -139,34 +141,24 @@ namespace GetAccredited.Models
             return id.Substring(0, 22).ToUpper();
         }
 
-        public static void SendInviteEmail(string recipient, Organization organization, string inviteLink) // inviteLink is where you want someone to go to register
+        public static async Task<bool> SendInviteEmail(string recipient, Organization organization, string inviteLink)
         {
-            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
-
-            smtpClient.Credentials = new System.Net.NetworkCredential(GETACCREDITED_EMAIL, GETACCREDITED_EMAIL_PW);
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.EnableSsl = true;
-
-            MailMessage mail = new MailMessage();
-            mail.Subject = "(noreply) GetAccredited - Invitation to Register as Representative";
-            mail.IsBodyHtml = true;
-
-            mail.Body = $"Dear {recipient},<br/><br/>";
-
-            mail.Body += $"You have been invited to register as a representative for your organization, {organization.Name}, at GetAccredited.";
-
-            mail.Body += $"<br/></br>As a representative, you will be reponsible for managing your organization. This will include " +
+            var client = new SendGridClient(SENDGRID_APIKEY);
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress(GETACCREDITED_EMAIL, "GetAccredited, Site Administrator"),
+                Subject = "(noreply) GetAccredited - Invitation to Register as Representative",
+                HtmlContent = $"Dear {recipient},<br/><br/>" +
+                $"You have been invited to register as a representative for your organization, {organization.Name}, at GetAccredited." +
+                $"<br/></br>As a representative, you will be reponsible for managing your organization. This will include " +
                 $"building schedules for student appointments, adding accreditations and corresponding requirements, " +
-                $"and some more.";
-
-            mail.Body += $"<br/><br/>Use code <b>{organization.OrganizationId}</b> to create your account. You can go to this link to start the registration process: <u><a href=\"{inviteLink}\">{inviteLink}</a></u>";
-            mail.Body += $"<br/><br/>GetAccredited, <i>Site Administrator</i>";
-
-            // Setting From and To
-            mail.From = new MailAddress("noreply.getaccredited@gmail.com", "getAccredited-noreply");
-            mail.To.Add(new MailAddress(recipient));
-
-            smtpClient.Send(mail);
+                $"and some more." +
+                $"<br/><br/>Use code <b>{organization.OrganizationId}</b> to create your account. You can go to this link to start the registration process: <u><a href=\"{inviteLink}\">{inviteLink}</a></u>" +
+                $"<br/><br/>GetAccredited, <i>Site Administrator</i>"
+            };
+            msg.AddTo(new EmailAddress(recipient));
+            var response = await client.SendEmailAsync(msg);
+            return response.IsSuccessStatusCode;
         }
 
         public static async Task<string> UploadFile(IFormFile file, string path) // path is the destination

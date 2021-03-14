@@ -47,14 +47,13 @@ namespace GetAccredited.Models.Repositories
                 return;
 
             // update bookings affected
-            // and delete eligibility requirements file if there's any
+            var bookings = context.Bookings.Where(b => b.Accreditation.Organization == organization);
+            foreach (var booking in bookings)
+                booking.Accreditation = null;
+
+            //delete eligibility requirements file if there's any
             foreach (var acc in accreditations)
             {
-                var bookings = context.Bookings.Where(b => b.Accreditation == acc);
-
-                foreach (var b in bookings)
-                    b.Accreditation = null;
-
                 if (acc.EligibilityFileURL != null)
                     Utility.DeleteFile(env.WebRootPath + Utility.REQUIREMENTS_DIR + acc.EligibilityFileURL);
             }

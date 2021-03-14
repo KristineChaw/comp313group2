@@ -1,6 +1,7 @@
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\GetAccredited.exe
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\css\styles.css
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\data\requirements\1e3af272-2faa-4a96-851d-ad631cc459ae.pdf
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\data\requirements\2e9e819b-c616-42bc-b62b-8e976d5e0060.pdf
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\data\requirements\3a869c22-caaa-45bb-ad32-3f453c4f14d6.pdf
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\images\fa-barboza-yuqCAKrbjyE-unsplash.png
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\images\icon.png
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\images\photo-1486406146926-c627a92ad1ab.png
@@ -57,6 +58,8 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netc
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\Newtonsoft.Json.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\NuGet.Frameworks.dll
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\SendGrid.dll
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\StarkbankEcdsa.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\System.Collections.Immutable.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\System.Composition.AttributedModel.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\System.Composition.Convention.dll
