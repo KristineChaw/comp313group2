@@ -39,6 +39,21 @@ namespace GetAccredited.Migrations.ApplicationDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "Uploads",
+                columns: table => new
+                {
+                    UploadId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentId = table.Column<string>(nullable: true),
+                    FileURL = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Uploads", x => x.UploadId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Accreditations",
                 columns: table => new
                 {
@@ -179,6 +194,9 @@ namespace GetAccredited.Migrations.ApplicationDb
 
             migrationBuilder.DropTable(
                 name: "Requests");
+
+            migrationBuilder.DropTable(
+                name: "Uploads");
 
             migrationBuilder.DropTable(
                 name: "Bookings");

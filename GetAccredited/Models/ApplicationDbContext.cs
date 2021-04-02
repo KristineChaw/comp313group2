@@ -21,5 +21,7 @@ namespace GetAccredited.Models
         public DbSet<Card> Cards { get; set; }
 
         public DbSet<Request> Requests { get; set; }
+
+        public DbSet<Upload> Uploads { get; set; }
     }
 }

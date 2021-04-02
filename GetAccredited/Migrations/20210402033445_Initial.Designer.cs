@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetAccredited.Migrations
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
-    [Migration("20210305052851_Initial")]
+    [Migration("20210402033445_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

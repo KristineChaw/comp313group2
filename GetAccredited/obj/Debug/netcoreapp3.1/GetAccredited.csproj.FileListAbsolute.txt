@@ -227,6 +227,8 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcor
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\NuGet.Frameworks.dll
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\SendGrid.dll
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\StarkbankEcdsa.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\System.Composition.AttributedModel.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\System.Composition.Convention.dll
@@ -314,6 +316,8 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcor
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Account\Profile.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Account\StudentUploads.cshtml.g.cs
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Account\UploadFile.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Accreditation\AccreditationList.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Accreditation\Browse.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Accreditation\CreateAccreditation.cshtml.g.cs
@@ -344,6 +348,5 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcor
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.pdb
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.genruntimeconfig.cache
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\SendGrid.dll
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\bin\Debug\netcoreapp3.1\StarkbankEcdsa.dll
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\Razor\Views\Account\ViewUpload.cshtml.g.cs
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Debug\netcoreapp3.1\GetAccredited.csprojAssemblyReference.cache

@@ -21,6 +21,7 @@ namespace GetAccredited.Models
         public const string ROLE_STUDENT = "student";
         public const string ROLE_REP = "representative";
         public const string REQUIREMENTS_DIR = "/data/requirements/";
+        public const string UPLOADS_DIR = "/data/uploads/";
 
         private static RoleManager<IdentityRole> roleManager;
         private static UserManager<ApplicationUser> userManager;

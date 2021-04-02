@@ -183,6 +183,27 @@ namespace GetAccredited.Migrations.ApplicationDb
                     b.ToTable("Requests");
                 });
 
+            modelBuilder.Entity("GetAccredited.Models.Upload", b =>
+                {
+                    b.Property<int>("UploadId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FileURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UploadId");
+
+                    b.ToTable("Uploads");
+                });
+
             modelBuilder.Entity("GetAccredited.Models.Accreditation", b =>
                 {
                     b.HasOne("GetAccredited.Models.Organization", "Organization")

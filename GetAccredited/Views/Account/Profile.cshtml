@@ -13,11 +13,14 @@
             <h1 class="profile_details_title">
                 @Model
             </h1><br>
-                 <p>Email Address: @Model.Email</p>
+            <p>Email Address: @Model.Email</p>
         </div>
         <div>
             <a class="profile_details_btn" asp-controller="Account"
                asp-action="Edit">Edit Profile</a>
+            <a class="profile_details_btn" asp-controller="Account"
+               asp-action="Uploads"
+               asp-route-user="@Model.Id">My Documents</a>
         </div>
     </div>
 </div>

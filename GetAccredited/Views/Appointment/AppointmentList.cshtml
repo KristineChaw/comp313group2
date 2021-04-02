@@ -31,7 +31,20 @@
                         <td class="appointlist_td">@appointment.Date.ToString("MMMM d, yyyy")</td>
                         <td class="appointlist_td">@appointment.Start.ToString("h:mm tt")</td>
                         <td class="appointlist_td">@appointment.End.ToString("h:mm tt")</td>
-                        <td class="appointlist_td">@(appointment.IsBooked ? (await userManager.FindByIdAsync(appointment.StudentId)).ToString() : "N/A")</td>
+                        <td class="appointlist_td">
+                            @if (appointment.IsBooked)
+                            {
+                                var student = await userManager.FindByIdAsync(appointment.StudentId);
+                                <a asp-controller="Account"
+                                   asp-action="Uploads"
+                                   asp-route-user="@appointment.StudentId"
+                                   title="View @student's documents">@student</a>
+                            }
+                            else
+                            {
+                                <text>N/A</text>
+                            }
+                        </td>
                         <td>
                             <a class="appointlist_crud" asp-controller="Appointment"
                                asp-action="Edit"
@@ -49,14 +62,15 @@
                 }
             </tbody>
         </table>
-    }else
+    }
+    else
     {
         <center>There are currently no appoinment time slots added.</center>
     }
 
-<div class="row">
-    <a class="btn_appointlist" asp-controller="Appointment" asp-action="Create">Create an Appointment</a>
-    <a class="btn_appointlist" asp-controller="Appointment" asp-action="VerifyAppointment">Verify an Appointment</a>
-    <a class="btn_appointlist" asp-controller="Appointment" asp-action="Requests">View Appointment Requests</a>
-</div>
+    <div class="row">
+        <a class="btn_appointlist" asp-controller="Appointment" asp-action="Create">Create an Appointment</a>
+        <a class="btn_appointlist" asp-controller="Appointment" asp-action="VerifyAppointment">Verify an Appointment</a>
+        <a class="btn_appointlist" asp-controller="Appointment" asp-action="Requests">View Appointment Requests</a>
+    </div>
 </div>

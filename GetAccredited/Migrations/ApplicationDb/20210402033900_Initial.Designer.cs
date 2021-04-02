@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetAccredited.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210305053121_Initial")]
+    [Migration("20210402033900_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -183,6 +183,27 @@ namespace GetAccredited.Migrations.ApplicationDb
                     b.HasIndex("NewAppointmentAppointmentId");
 
                     b.ToTable("Requests");
+                });
+
+            modelBuilder.Entity("GetAccredited.Models.Upload", b =>
+                {
+                    b.Property<int>("UploadId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FileURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UploadId");
+
+                    b.ToTable("Uploads");
                 });
 
             modelBuilder.Entity("GetAccredited.Models.Accreditation", b =>

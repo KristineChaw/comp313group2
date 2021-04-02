@@ -86,3 +86,9 @@ function deleteAccreditation(accreditationId) {
         window.location.href = "/Accreditation/Delete?accreditationId=" + accreditationId;
     }
 }
+
+function deleteDocument(uploadId) {
+    if (confirm("Are you sure you want to delete this document? Once deleted, a document cannot be recovered.\n\nClick \"OK\" to proceed.")) {
+        window.location.href = "/Account/DeleteStudentFile?uploadId=" + uploadId.toString();
+    }
+}

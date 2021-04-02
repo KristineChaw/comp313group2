@@ -11,6 +11,7 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\n
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\GetAccreditedTests.runtimeconfig.dev.json
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\GetAccreditedTests.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\GetAccreditedTests.pdb
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Castle.Core.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
@@ -24,6 +25,7 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\n
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.Data.SqlClient.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.InMemory.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
@@ -60,11 +62,15 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\n
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Moq.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\NuGet.Frameworks.dll
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\SendGrid.dll
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\StarkbankEcdsa.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\System.ComponentModel.Annotations.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\System.Composition.AttributedModel.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\System.Composition.Convention.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\System.Composition.Hosting.dll
@@ -210,9 +216,3 @@ C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\obj\Debug\n
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\obj\Debug\netcoreapp3.1\GetAccreditedTests.dll
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\obj\Debug\netcoreapp3.1\GetAccreditedTests.pdb
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\obj\Debug\netcoreapp3.1\GetAccreditedTests.genruntimeconfig.cache
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\SendGrid.dll
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\StarkbankEcdsa.dll
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Castle.Core.dll
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Moq.dll
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.InMemory.dll
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccreditedTests\bin\Debug\netcoreapp3.1\System.ComponentModel.Annotations.dll

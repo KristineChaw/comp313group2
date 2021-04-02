@@ -2,6 +2,7 @@
 using GetAccredited.Models.Repositories;
 using GetAccredited.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,15 +17,22 @@ namespace GetAccredited.Controllers
     {
         private SignInManager<ApplicationUser> signInManager;
         private UserManager<ApplicationUser> userManager;
+        private IAccountRepository accountRepository;
         private IOrganizationRepository organizationRepository;
+
+        private IWebHostEnvironment env;
 
         public AccountController(SignInManager<ApplicationUser> signInMgr,
             UserManager<ApplicationUser> userMgr,
-            IOrganizationRepository organizationRepo)
+            IAccountRepository accountRepo,
+            IOrganizationRepository organizationRepo,
+            IWebHostEnvironment _env)
         {
             signInManager = signInMgr;
             userManager = userMgr;
+            accountRepository = accountRepo;
             organizationRepository = organizationRepo;
+            env = _env;
         }
 
         [HttpGet]
@@ -172,6 +180,132 @@ namespace GetAccredited.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public ViewResult UploadStudentFile()
+        {
+            return View("UploadFile");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadStudentFile(UploadStudentFileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // retrieve current user
+                var user = await userManager.GetUserAsync(User);
+
+                // update fields of the upload file
+                model.Upload.StudentId = user.Id;
+                model.Upload.FileURL = await Utility.UploadFile(model.UploadFile, env.WebRootPath + Utility.UPLOADS_DIR);
+
+                // save upload file to db
+                accountRepository.SaveUpload(model.Upload);
+
+                // redirect user to documents list
+                TempData["message"] = "Document successfully uploaded.";
+                return await Uploads(user.Id);
+            }
+            else
+            {
+                TempData["message"] = "Something went wrong. Please try again.";
+                return UploadStudentFile();
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Utility.ROLE_STUDENT)]
+        public async Task<IActionResult> DeleteStudentFile(int uploadId)
+        {
+            // retrieve the document
+            var document = accountRepository.Uploads.FirstOrDefault(u => u.UploadId == uploadId);
+
+            // verify authorization and delete the file from the system
+            if (document != null)
+            {
+                var currentStudent = await userManager.GetUserAsync(User);
+                if (currentStudent != await userManager.FindByIdAsync(document.StudentId))
+                {
+                    TempData["message"] = "No document deleted. You are not authorized to perform this operation.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                accountRepository.DeleteUpload(uploadId); // delete from the DB
+                TempData["message"] = Utility.DeleteFile(env.WebRootPath + Utility.UPLOADS_DIR + document.FileURL) ? // delete the actual file
+                    $"{document.Name} was successfully deleted." : $"Failed to delete document due to an unknown error.";
+            }
+            else
+            {
+                TempData["message"] = "Failed to delete the document because it does not exist.";
+            }
+
+            return await Uploads(userManager.GetUserId(User));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Utility.ROLE_REP + "," + Utility.ROLE_STUDENT)]
+        public async Task<IActionResult> ViewStudentFile(int uploadId)
+        {
+            // retrieve document
+            var document = accountRepository.Uploads.FirstOrDefault(u => u.UploadId == uploadId);
+
+            if (document == null)
+            {
+                TempData["message"] = "This document does not exist.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            // retrieve uploader
+            var uploader = await userManager.FindByIdAsync(document.StudentId);
+
+            // unless the current user is the uploader, do not allow user from seeing this document
+            if (User.IsStudent())
+            {
+                var currentStudent = await userManager.GetUserAsync(User);
+                if (currentStudent != uploader)
+                {
+                    TempData["message"] = "You are not authorized to view this page.";
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            return View("ViewUpload", new ViewUploadViewModel
+            {
+                Document = document,
+                Student = uploader
+            });
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Utility.ROLE_REP + "," + Utility.ROLE_STUDENT)]
+        public async Task<IActionResult> Uploads(string user)
+        {
+            var student = await userManager.FindByIdAsync(user);
+            if (student == null)
+            {
+                TempData["message"] = "This user does not exist.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            // do not allow a student from seeing other students' document
+            if (User.IsStudent())
+            {
+                var currentStudent = await userManager.GetUserAsync(User);
+                if (currentStudent != student)
+                {
+                    TempData["message"] = "You are not authorized to view this page.";
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            return View("StudentUploads", new StudentUploadsViewModel
+            {
+                Uploads = accountRepository.Uploads
+                            .Where(u => u.StudentId == user)
+                            .OrderBy(u => u.Name),
+                Student = student
+            });
         }
     }
 }

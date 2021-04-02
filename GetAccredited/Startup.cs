@@ -32,6 +32,7 @@ namespace GetAccredited
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
                 .AddDefaultTokenProviders();
+            services.AddScoped<IAccountRepository, EFAccountRepository>();
             services.AddScoped<IAccreditationRepository, EFAccreditationRepository>();
             services.AddScoped<IOrganizationRepository, EFOrganizationRepository>();
             services.AddScoped<IAppointmentRepository, EFAppointmentRepository>();

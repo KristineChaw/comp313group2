@@ -1,0 +1,20 @@
+﻿@model ViewUploadViewModel
+@{
+    bool currentUser = userManager.GetUserId(User) == Model.Student.Id;
+    ViewBag.Title = $"{Model.Document.Name} - {Model.Student}";
+}
+
+<div class="row">
+    <h2>
+        @Model.Document.Name by @Model.Student
+    </h2>
+    <h3><a asp-controller="Account" asp-action="Uploads" asp-route-user="@Model.Student.Id">View all uploads by this user</a></h3>
+</div>
+
+<div class="row">
+    <div class="col span-1-of-1">
+        <div class="eligibility_box">
+            <embed class="pdf" src="~/data/uploads/@Model.Document.FileURL" type="application/pdf" />
+        </div>
+    </div>
+</div>
