@@ -7,27 +7,28 @@
     </h2>
 </div>
 
-<div class="row">
+<div class="row verifyappoint-container">
+    <br />
     @if (User.IsAdmin())
     {
-        <p>Organization: @Model.Appointment.Organization.Name</p>
+        <p><strong>Organization</strong>: @Model.Appointment.Organization.Name</p>
     }
-    Accreditation: @Model.Accreditation.Name <br />
-    Student: @((await userManager.FindByIdAsync(Model.StudentId)).ToString()) <br />
-    Date: @Model.Appointment.Date.ToString("MMMM d, yyyy") <br />
-    From: @Model.Appointment.Start.ToString("h:mm tt") <br />
-    To: @Model.Appointment.End.ToString("h:mm tt") <br />
+    <strong>Accreditation</strong>: @Model.Accreditation.Name <br />
+    <strong>Student</strong>: @((await userManager.FindByIdAsync(Model.StudentId)).ToString()) <br />
+    <strong>Date</strong>: @Model.Appointment.Date.ToString("MMMM d, yyyy") <br />
+    <strong>From</strong>: @Model.Appointment.Start.ToString("h:mm tt") <br />
+    <strong>To</strong>: @Model.Appointment.End.ToString("h:mm tt") <br />
 
-    <br /><hr /><br />
 </div>
 
-<div class="row">
-    <p>Retrieve details of another appointment by entering its tracking number.</p>
+<div class="row verifyappoint-container">
+    <p>Retrieve details of another appointment by entering its tracking number. (Note: An appointment's tracking number is its ID.)</p>
     <br />
 
     <form asp-controller="Appointment" asp-action="VerifyAppointment" method="post">
         <label>Tracking Number:</label>
-        <input type="text" name="trackingNumber" />
+        <input type="text" name="trackingNumber" pattern="[0-9]+"
+               title="A valid tracking number contains only numeric characters." required />
         <input type="submit" />
     </form>
 </div>
