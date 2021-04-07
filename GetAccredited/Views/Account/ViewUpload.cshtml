@@ -8,7 +8,7 @@
     <h2>
         @Model.Document.Name by @Model.Student
     </h2>
-    <h3><a asp-controller="Account" asp-action="Uploads" asp-route-user="@Model.Student.Id">View all uploads by this user</a></h3>
+    <h3><a class="btn_viewupload" asp-controller="Account" asp-action="Uploads" asp-route-user="@Model.Student.Id">View all uploads by this user</a></h3>
 </div>
 
 <div class="row">

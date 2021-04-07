@@ -12,45 +12,47 @@
 
 @if (Model.Uploads != null && Model.Uploads.Any())
 {
-    <table>
+<div class="row">
+    <table class="uploadslist">
         <thead>
-            <tr>
-                <th>Name</th>
-                <th>Action(s)</th>
+            <tr class="uploadslist_tr">
+                <th class="uploadslist_th">Name</th>
+                <th class="uploadslist_th">Action(s)</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var document in Model.Uploads)
             {
-                <tr>
-                    <td>@document.Name</td>
+                <tr class="uploadslist_tr">
+                    <td class="uploadslist_td">@document.Name</td>
                     @if (currentUser)
                     {
                         <td>
-                            <a asp-controller="Account"
-                               asp-action="ViewStudentFile"
-                               asp-route-uploadId="@document.UploadId">View</a> | <a href="javascript:deleteDocument(@document.UploadId)">Delete</a>
+                            <a class="uploadslist_crud" asp-controller="Account"
+                                asp-action="ViewStudentFile"
+                                asp-route-uploadId="@document.UploadId">View</a> | <a class="uploadslist_crud" href="javascript:deleteDocument(@document.UploadId)">Delete</a>
                         </td>
                     }
                     else
                     {
                         <td>
-                            <a asp-controller="Account"
-                               asp-action="ViewStudentFile"
-                               asp-route-uploadId="@document.UploadId">View</a>
+                            <a class="uploadslist_crud" asp-controller="Account"
+                                asp-action="ViewStudentFile"
+                                asp-route-uploadId="@document.UploadId">View</a>
                         </td>
                     }
                 </tr>
             }
         </tbody>
     </table>
+</div>
 }
 else
 {
-    <span>@(currentUser ? "You have not uploaded any document yet." : "This user has not uploaded any documents yet.")</span>
+<span class="center">@(currentUser ? "You have not uploaded any document yet." : "This user has not uploaded any documents yet.")</span><br>
 }
 
 @if (currentUser)
 {
-    <a asp-controller="Account" asp-action="UploadStudentFile">Upload a Document</a>
+    <a class="btn_uploaddoc" asp-controller="Account" asp-action="UploadStudentFile">Upload a Document</a>
 }

@@ -9,33 +9,35 @@
     </h2>
 </div>
 
-<form asp-controller="Account" asp-action="UploadStudentFile" method="post" enctype="multipart/form-data">
-    <table>
-        <!-- Name of File -->
-        <tr>
-            <td>
-                Name of document:
-            </td>
-            <td>
-                <input asp-for="Upload.Name" type="text" required />
-            </td>
-        </tr>
+<div class="row uploadfile-container">
+    <form asp-controller="Account" asp-action="UploadStudentFile" method="post" enctype="multipart/form-data">
+        <table>
+            <!-- Name of File -->
+            <tr>
+                <td>
+                    Name of document:
+                </td>
+                <td>
+                    <input asp-for="Upload.Name" type="text" required />
+                </td>
+            </tr>
 
-        <!-- File -->
-        <tr>
-            <td>
-                Select file (PDF):
-            </td>
-            <td>
-                <input asp-for="UploadFile" type="file" accept="application/pdf" onchange="validateExtension(this, 'doc')" required />
-            </td>
-        </tr>
+            <!-- File -->
+            <tr>
+                <td>
+                    Select file (PDF):
+                </td>
+                <td>
+                    <input asp-for="UploadFile" type="file" accept="application/pdf" onchange="validateExtension(this, 'doc')" required />
+                </td>
+            </tr>
 
-        <!-- Upload File button -->
-        <tr>
-            <td>
-                <input type="submit" value="Upload File" />
-            </td>
-        </tr>
-    </table>
-</form>
+            <!-- Upload File button -->
+            <tr>
+                <td>
+                    <input type="submit" value="Upload File" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
