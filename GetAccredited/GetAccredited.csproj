@@ -19,6 +19,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\data\requirements\" />
     <Folder Include="wwwroot\data\uploads\" />
+    <Folder Include="wwwroot\images\logos\" />
   </ItemGroup>
 
 </Project>

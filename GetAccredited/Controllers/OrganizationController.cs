@@ -2,6 +2,7 @@
 using GetAccredited.Models.Repositories;
 using GetAccredited.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,16 +21,19 @@ namespace GetAccredited.Controllers
         private IAccreditationRepository accreditationRepository;
         private IAppointmentRepository appointmentRepository;
         private readonly UserManager<ApplicationUser> userManager;
+        private IWebHostEnvironment env;
 
         public OrganizationController(IOrganizationRepository organizationRepo,
             IAccreditationRepository accreditationRepo,
             IAppointmentRepository appointmentRepo,
-            UserManager<ApplicationUser> userMgr)
+            UserManager<ApplicationUser> userMgr,
+             IWebHostEnvironment _env)
         {
             organizationRepository = organizationRepo;
             accreditationRepository = accreditationRepo;
             appointmentRepository = appointmentRepo;
             userManager = userMgr;
+            env = _env;
         }
 
         [HttpGet]
@@ -122,7 +126,8 @@ namespace GetAccredited.Controllers
                 if (await Utility.SendInviteEmail(model.Email, model.Organization, inviteLink))
                 {
                     TempData["message"] = $"Email sent to {model.Email}.";
-                } else
+                }
+                else
                 {
                     TempData["message"] = $"Something went wrong. No invitation email has been sent.";
                 }
@@ -228,6 +233,66 @@ namespace GetAccredited.Controllers
                 return RedirectToAction("Representatives", new { organizationId = model.OrganizationId });
             }
             return View("CreateOrganization", model);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Utility.ROLE_REP)]
+        public async Task<IActionResult> UploadLogo(string organizationId)
+        {
+            // check if organization exists
+            var organization = organizationRepository.Organizations
+                .FirstOrDefault(o => o.OrganizationId == organizationId);
+
+            if (organization == null)
+            {
+                TempData["message"] = "There does not exist an organization with this ID.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            // check if current user is part of this organization
+            var rep = await userManager.GetUserAsync(User);
+            if (rep.OrganizationId != organizationId)
+            {
+                TempData["message"] = "You do not have permission to upload a logo for this organization.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(new UploadLogoViewModel
+            {
+                Organization = organization
+            });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Utility.ROLE_REP)]
+        public async Task<IActionResult> UploadLogo(UploadLogoViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // retrieve organization
+                model.Organization = organizationRepository.Organizations
+                    .First(o => o.OrganizationId == model.Organization.OrganizationId);
+
+                // delete previous logo if Exists
+                if (model.Organization.Logo != null)
+                {
+                    Utility.DeleteFile(env.WebRootPath + Utility.LOGOS_DIR + model.Organization.Logo);
+                    model.Organization.Logo = null;
+                }
+
+                // upload file and get set file name of the organization's logo
+                model.Organization.Logo = await Utility.UploadFile(model.Logo, env.WebRootPath + Utility.LOGOS_DIR);
+
+                // save changes
+                organizationRepository.SaveOrganization(model.Organization);
+                TempData["message"] = "Organization logo has been successfully added or changed.";
+
+                // redirect to organization page
+                return RedirectToAction("Display", new { organizationId = model.Organization.OrganizationId });
+            }
+
+            TempData["message"] = "Something went wrong. Try again.";
+            return await UploadLogo(model.Organization.OrganizationId);
         }
     }
 }

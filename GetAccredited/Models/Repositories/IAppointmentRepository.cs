@@ -10,6 +10,7 @@ namespace GetAccredited.Models.Repositories
         IQueryable<Appointment> Appointments { get; }
         void DeleteAppointmentsByOrganization(Organization organization);
         void SaveAppointment(Appointment appointment);
+        void SaveAppointments(List<Appointment> slots);
         IQueryable<Booking> Bookings { get; }
         void SaveBooking(Booking booking);
         IQueryable<Card> Cards { get; }
@@ -17,5 +18,9 @@ namespace GetAccredited.Models.Repositories
         IQueryable<Request> Requests { get; }
         void SaveRequest(Request request);
         void DeleteRequest(Request request);
+
+        void DeleteBookingsByStudent(string studentId);
+
+        void DeleteCardsByStudent(string studentId);
     }
 }

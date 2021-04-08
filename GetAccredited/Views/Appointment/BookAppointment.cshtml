@@ -13,6 +13,13 @@
 <div class="row bookappoint-container">
     <form asp-controller="Appointment" asp-action="BookAppointment" method="post">
         <table>
+            @if(Model.Organization.Logo != null)
+            {
+                <tr>
+                    <td></td>
+                    <td><img src="~/images/logos/@Model.Organization.Logo" height="100" /></td>
+                </tr>
+            }
             <tr>
                 <td>Organization:</td>
                 <td class="bookappoint_org_name">@Model.Organization</td>

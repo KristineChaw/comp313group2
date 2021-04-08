@@ -1,0 +1,43 @@
+﻿@model UploadLogoViewModel
+@{ ViewBag.Title = "Upload logo";}
+
+<div class="row">
+    <h2>
+        Upload Organization Logo
+    </h2>
+</div>
+
+<div class="row">
+    <form asp-controller="Organization" asp-action="UploadLogo" method="post" enctype="multipart/form-data">
+        <!-- HIDDEN INPUTS -->
+        <input type="hidden" asp-for="Organization.OrganizationId" />
+
+        <table>
+            <!-- Display organization LOGO if Exists -->
+            @if (Model.Organization.Logo != null)
+            {
+                <tr>
+                    <td>Current logo:<br />This will be overwritten if you upload a new logo.</td>
+                    <td><img src="~/images/logos/@(Model.Organization.Logo)" height="100" /></td>
+                </tr>
+            }
+
+            <!-- Image File -->
+            <tr>
+                <td>
+                    Select image file (.jpeg, .jpg, or .png):
+                </td>
+                <td>
+                    <input asp-for="Logo" type="file" accept=".jpeg, .jpg, .png" onchange="validateExtension(this, 'img')" required />
+                </td>
+            </tr>
+
+            <!-- Upload File button -->
+            <tr>
+                <td>
+                    <input type="submit" value="Upload Logo" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

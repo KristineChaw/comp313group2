@@ -19,6 +19,7 @@ namespace GetAccredited.Controllers
         private UserManager<ApplicationUser> userManager;
         private IAccountRepository accountRepository;
         private IOrganizationRepository organizationRepository;
+        private IAppointmentRepository appointmentRepository;
 
         private IWebHostEnvironment env;
 
@@ -26,12 +27,14 @@ namespace GetAccredited.Controllers
             UserManager<ApplicationUser> userMgr,
             IAccountRepository accountRepo,
             IOrganizationRepository organizationRepo,
+            IAppointmentRepository appointmentRepo,
             IWebHostEnvironment _env)
         {
             signInManager = signInMgr;
             userManager = userMgr;
             accountRepository = accountRepo;
             organizationRepository = organizationRepo;
+            appointmentRepository = appointmentRepo;
             env = _env;
         }
 
@@ -140,6 +143,7 @@ namespace GetAccredited.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = Utility.ROLE_STUDENT)]
         public async Task<ViewResult> Profile()
         {
             var user = await userManager.GetUserAsync(User);
@@ -183,12 +187,14 @@ namespace GetAccredited.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = Utility.ROLE_STUDENT)]
         public ViewResult UploadStudentFile()
         {
             return View("UploadFile");
         }
 
         [HttpPost]
+        [Authorize(Roles = Utility.ROLE_STUDENT)]
         public async Task<IActionResult> UploadStudentFile(UploadStudentFileViewModel model)
         {
             if (ModelState.IsValid)
@@ -306,6 +312,82 @@ namespace GetAccredited.Controllers
                             .OrderBy(u => u.Name),
                 Student = student
             });
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Utility.ROLE_REP + "," + Utility.ROLE_STUDENT)]
+        public ViewResult ChangePassword()
+        {
+            return View(new ChangePasswordViewModel());
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Utility.ROLE_REP + "," + Utility.ROLE_STUDENT)]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.GetUserAsync(User);
+
+                if (user == null)
+                {
+                    TempData["message"] = "Failed to update password. Something went wrong.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                var result = await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+                // if change password was unsuccessful, retrieve all errors and return to the form
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View(new ChangePasswordViewModel());
+                }
+
+                // at this point, password has been changed successfully
+                await signInManager.RefreshSignInAsync(user);
+                TempData["message"] = "Password successfully updated.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(new ChangePasswordViewModel());
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Utility.ROLE_STUDENT)]
+        public async Task<IActionResult> Delete()
+        {
+            // retrieve user
+            var user = await userManager.GetUserAsync(User);
+
+            // if user found
+            if (user != null)
+            {
+                // delete all bookings by this user
+                appointmentRepository.DeleteBookingsByStudent(user.Id);
+                appointmentRepository.DeleteCardsByStudent(user.Id);
+                accountRepository.DeleteUploadsByUser(user.Id);
+
+                // remove user from any appointment record
+                var appointments = appointmentRepository.Appointments.Where(a => a.StudentId == user.Id);
+                foreach (var appointment in appointments.ToList())
+                {
+                    appointment.StudentId = null;
+                    appointmentRepository.SaveAppointment(appointment);
+                }
+
+                // delete and sign out current user
+                await userManager.DeleteAsync(user);
+                await signInManager.SignOutAsync();
+
+                TempData["message"] = "Account deleted.";
+                return RedirectToAction("Login");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

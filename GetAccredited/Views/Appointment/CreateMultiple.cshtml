@@ -1,0 +1,69 @@
+﻿@model AppointmentsViewModel
+@{ ViewBag.Title = "Add Multiple Appointments"; }
+
+<div class="row">
+    <h2>
+        Add Multiple Appointments
+    </h2>
+    <h3>This page allows you to add multiple appointment slots in a day at once.</h3>
+</div>
+
+<div class="row">
+    <form asp-controller="Appointment" asp-action="CreateMultiple" method="post">
+        <table>
+            <!-- DATE -->
+            <tr>
+                <td>Date:</td>
+                <td>
+                    <input asp-for="Date" type="date" required /> <br />
+                    <span>Note: You can only add multiple appointments on a free day or on a date with no appointments booked.</span>
+                </td>
+            </tr>
+
+            <!-- START TIME -->
+            <tr>
+                <td>Start Time (start time of the first appointment):</td>
+                <td><input asp-for="Start" type="time" step="60" required /></td>
+            </tr>
+
+            <!-- DURATION of EACH APPOINTMENT (in minutes) -->
+            <tr>
+                <td>Duration (minutes):</td>
+                <td>
+                    <select asp-for="Duration" required>
+                        <option value="">Select an option</option>
+                        <option value=15>15 minutes</option>
+                        <option value=30>30 minutes</option>
+                        <option value=45>45 minutes</option>
+                        <option value=60>1 hour</option>
+                        <option value=90>1 hour, 30 minutes</option>
+                        <option value=120>2 hours</option>
+                    </select>
+                </td>
+            </tr>
+
+            <!-- TIME IN BETWEEN APPOINTMENTS (in minutes) -->
+            <tr>
+                <td>Time in between appointments (minutes):</td>
+                <td>
+                    <select asp-for="TimeInBetween" required>
+                        <option value="">Select an option</option>
+                        <option value=5>5 minutes</option>
+                        <option value=10>10 minutes</option>
+                        <option value=15>15 minutes</option>
+                        <option value=30>30 minutes</option>
+                        <option value=45>45 minutes</option>
+                        <option value=60>1 hour</option>
+                    </select>
+                </td>
+            </tr>
+
+            <!-- SUBMIT BUTTON -->
+            <tr>
+                <td>
+                    <input type="submit" value="Create Appointments" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

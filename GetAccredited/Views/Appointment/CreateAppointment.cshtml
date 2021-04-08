@@ -50,6 +50,12 @@
             <tr>
                 <td>
                     <input type="submit" value="@(isCreate ? "Create" : "Save")" />
+
+                    @if (isCreate)
+                    {
+                        <text>OR</text>
+                        <a asp-controller="Appointment" asp-action="CreateMultiple">Create Multiple Appointments</a>
+                    }
                 </td>
             </tr>
         </table>

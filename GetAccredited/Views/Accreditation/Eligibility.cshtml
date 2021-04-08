@@ -10,6 +10,10 @@
 <div class="row">
     <div class="col span-1-of-1">
         <div class="eligibility_box">
+            @if (Model.Organization.Logo != null)
+            {
+                <img src="~/images/logos/@Model.Organization.Logo" height="100" />
+            }
             @if (Model.EligibilityFileURL == null)
             {
 

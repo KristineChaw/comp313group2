@@ -13,6 +13,15 @@
     </div>
 
     <div class="col span-1-of-2">
+        <br />
+
+        <div>
+            <a asp-controller="Account"
+               asp-action="Edit" class="btn_portal">Edit Profile</a>
+            <a asp-controller="Account"
+               asp-action="ChangePassword" class="btn_portal">Change Password</a>
+        </div>
+
         <div class="box">
             <h1 class="title_representative">
                 Recently Added:
@@ -49,16 +58,6 @@
         <div>
             <a asp-controller="Appointment"
                asp-action="List" class="btn_portal">Manage Appointments</a>
-        </div>
-
-        <div class="box">
-            <h1 class="title_representative">
-                Requests:
-            </h1><br>
-            <p class="p_representative">Rescheduling Requests: 13</p>
-            <p class="p_representative">Cancellation Requests: 3</p>
-        </div>
-        <div>
             <a asp-controller="Appointment"
                asp-action="Requests" class="btn_portal">View Requests</a>
         </div>

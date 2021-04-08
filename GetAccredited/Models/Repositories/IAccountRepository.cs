@@ -11,5 +11,6 @@ namespace GetAccredited.Models.Repositories
         void SaveUpload(Upload upload);
 
         Upload DeleteUpload(int uploadId);
+        void DeleteUploadsByUser(string userId);
     }
 }

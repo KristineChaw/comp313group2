@@ -92,3 +92,9 @@ function deleteDocument(uploadId) {
         window.location.href = "/Account/DeleteStudentFile?uploadId=" + uploadId.toString();
     }
 }
+
+function deleteAccount() {
+    if (confirm("Are you sure that you want to delete your account? Account deletions are permanent and cannot be undone. All the files you have uploaded shall be deleted as well.\n\nClick \"OK\" to proceed.")) {
+        window.location.href = "/Account/Delete";
+    }
+}

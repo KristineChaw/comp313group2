@@ -453,5 +453,83 @@ namespace GetAccredited.Controllers
 
             return View("CreateAppointment", model);
         }
+
+        [HttpGet]
+        [Authorize(Roles = Utility.ROLE_REP)]
+        public ViewResult CreateMultiple()
+        {
+            return View(new AppointmentsViewModel() { Date = DateTime.Now });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Utility.ROLE_REP)]
+        public async Task<IActionResult> CreateMultiple(AppointmentsViewModel model)
+        {
+            // check if date is NOT in the past
+            if (model.Date < DateTime.Today ||
+                (model.Date == DateTime.Today && model.Start < DateTime.Now))
+            {
+                ModelState.AddModelError("", "Please select a start time and date in the future.");
+            }
+
+            // retrieve current representative user and their organization
+            var representative = await userManager.GetUserAsync(User);
+            var organization = organizationRepository.Organizations
+                    .First(o => o.OrganizationId == representative.OrganizationId);
+
+            // check if date is free
+            if (appointmentRepository.Appointments
+                .Any(a => a.Organization == organization && a.Date == model.Date))
+            {
+                ModelState.AddModelError("", "Please select another date. There are appointments already booked on this day.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                int totalMinutes = 24 * 60; // total minutes in a day
+                int remaining = totalMinutes -
+                    ((model.Start.Hour * 60) +
+                    (model.Start.Minute)); // total minutes remaining in the day from the indicated started time
+
+                if (remaining <= model.Duration)
+                { // can't fit one appointment
+                    ModelState.AddModelError("",
+                        "No appointments would be created because the specified start time of the first appointment is too close to the end of the day.");
+                    return View(model);
+                }
+
+                // calculate how many appointments could fit in the specified date based on the inputs
+                var count = 0;
+                do
+                {
+                    count++;
+                    remaining -= (model.TimeInBetween + model.Duration);
+                } while (remaining > (model.TimeInBetween + model.Duration));
+
+                // create appointments slots
+                var slots = new List<Appointment>();
+                var start = model.Start;
+                while (slots.Count != count)
+                {
+                    var slot = new Appointment
+                    {
+                        Organization = organization,
+                        Date = model.Date,
+                        Start = start,
+                        End = start.AddMinutes(model.Duration)
+                    };
+                    if (slot.Start.Hour < model.Start.Hour || slot.Start.Hour < slot.End.Hour) // don't allow appointments that start or end past midnight
+                        slots.Add(slot);
+                    start = start.AddMinutes(model.TimeInBetween + model.Duration);
+                }
+
+                // save to DB and redirect to Appointment/List
+                appointmentRepository.SaveAppointments(slots);
+                TempData["message"] = $"Number of appointment slots automatically created: {slots.Count}";
+                return RedirectToAction("List", "Appointment");
+            }
+
+            return View(model);
+        }
     }
 }

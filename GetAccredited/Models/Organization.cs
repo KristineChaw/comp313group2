@@ -12,6 +12,7 @@ namespace GetAccredited.Models
         public String Acronym { get; set; }
         public String Description { get; set; }
         public String WebsiteUrl { get; set; }
+        public String Logo { get; set; }
         public override String ToString() => $"{Name} ({Acronym})";
     }
 }

@@ -22,6 +22,7 @@ namespace GetAccredited.Models
         public const string ROLE_REP = "representative";
         public const string REQUIREMENTS_DIR = "/data/requirements/";
         public const string UPLOADS_DIR = "/data/uploads/";
+        public const string LOGOS_DIR = "/images/logos/";
 
         private static RoleManager<IdentityRole> roleManager;
         private static UserManager<ApplicationUser> userManager;

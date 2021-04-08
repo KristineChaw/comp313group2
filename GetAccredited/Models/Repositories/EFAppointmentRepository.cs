@@ -47,6 +47,25 @@ namespace GetAccredited.Models.Repositories
             context.SaveChanges();
         }
 
+        public void DeleteBookingsByStudent(string studentId)
+        {
+            var bookings = context.Bookings.Where(b => b.StudentId == studentId);
+            if (bookings.Any())
+            {
+                // delete requests associated with these bookings
+                foreach (var booking in bookings)
+                {
+                    var requests = context.Requests.Where(r => r.Booking == booking);
+                    if (requests.Any())
+                        context.Requests.RemoveRange(requests);
+                }
+
+                // delete the bookings and save changes
+                context.Bookings.RemoveRange(bookings);
+                context.SaveChanges();
+            }
+        }
+
         public void DeleteRequest(Request request)
         {
             if (request != null)
@@ -78,6 +97,12 @@ namespace GetAccredited.Models.Repositories
                 appointmentEntry.StudentId = appointment.StudentId;
             }
 
+            context.SaveChanges();
+        }
+
+        public void SaveAppointments(List<Appointment> slots)
+        {
+            context.Appointments.AddRange(slots);
             context.SaveChanges();
         }
 
@@ -126,6 +151,13 @@ namespace GetAccredited.Models.Repositories
                 context.Requests.Add(request);
                 context.SaveChanges();
             }
+        }
+
+        public void DeleteCardsByStudent(string studentId)
+        {
+            var cards = context.Cards.Where(c => c.CustomerId == studentId);
+            context.Cards.RemoveRange(cards);
+            context.SaveChanges();
         }
     }
 }
