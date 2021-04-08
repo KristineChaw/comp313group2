@@ -10,18 +10,12 @@ namespace GetAccredited.Models
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<Organization> Organizations { get; set; }
-
         public DbSet<Accreditation> Accreditations { get; set; }
-
         public DbSet<Appointment> Appointments { get; set; }
-
         public DbSet<Booking> Bookings { get; set; }
-
         public DbSet<Card> Cards { get; set; }
-
+        public DbSet<Organization> Organizations { get; set; }
         public DbSet<Request> Requests { get; set; }
-
         public DbSet<Upload> Uploads { get; set; }
     }
 }

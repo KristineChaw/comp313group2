@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace GetAccredited.Models
 {
+    /// <summary>
+    /// A file uploaded by a student account.
+    /// </summary>
     public class Upload
     {
         public int UploadId { get; set; }

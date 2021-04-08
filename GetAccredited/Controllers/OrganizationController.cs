@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace GetAccredited.Controllers
 {
+    /// <summary>
+    /// The controller class for organization-related actions.
+    /// </summary>
     [Authorize]
     public class OrganizationController : Controller
     {

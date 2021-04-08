@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 namespace GetAccredited.Models
 {
+    /// <summary>
+    /// Provides helper methods used throughout the application.
+    /// </summary>
     public static class Utility
     {
         public const string ROLE_ADMIN = "administrator";
@@ -29,11 +32,14 @@ namespace GetAccredited.Models
 
         private const string ADMIN_NAME = "administrator";
         private const string DEFAULT_PASSWORD = "Secret123$";
-
         private const string GETACCREDITED_EMAIL = "noreply.getaccredited@gmail.com";
         private const string SENDGRID_APIKEY = "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";
 
-        // This method deletes an eligibility requirements file uploaded to an accreditation.
+        /// <summary>
+        /// This method deletes an eligibility requirements file uploaded to an accreditation.
+        /// </summary>
+        /// <param name="file">The path of the file being deleted</param>
+        /// <returns>true if the file was deleted; otherwise, false</returns>
         public static bool DeleteFile(string file)
         {
             if (File.Exists(file))
@@ -44,6 +50,11 @@ namespace GetAccredited.Models
             return false;
         }
 
+        /// <summary>
+        /// Ensures that the admin account is created.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         public static async Task EnsureAdminCreatedAsync(IApplicationBuilder app)
         {
             if (userManager == null)
@@ -64,6 +75,10 @@ namespace GetAccredited.Models
             }
         }
 
+        /// <summary>
+        /// Ensures that the default organizations are added.
+        /// </summary>
+        /// <param name="app"></param>
         public static void EnsureOrganizationsAdded(IApplicationBuilder app)
         {
             ApplicationDbContext context = app.ApplicationServices.GetRequiredService<ApplicationDbContext>();
@@ -105,6 +120,11 @@ namespace GetAccredited.Models
             }
         }
 
+        /// <summary>
+        /// Ensures that the three roles (Admin, Representative, and Student) are created.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         public static async Task EnsureRolesCreatedAsync(IApplicationBuilder app)
         {
             if (roleManager == null)
@@ -135,6 +155,10 @@ namespace GetAccredited.Models
             }
         }
 
+        /// <summary>
+        /// Returns a unique 22-character string ID that does not contain / or +.
+        /// </summary>
+        /// <returns>Unique string ID</returns>
         public static string GenerateId()
         {
             string id = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
@@ -143,6 +167,13 @@ namespace GetAccredited.Models
             return id.Substring(0, 22).ToUpper();
         }
 
+        /// <summary>
+        /// Sends an invitation email to a recipient to be a representative for an organization.
+        /// </summary>
+        /// <param name="recipient">The email of the recipient</param>
+        /// <param name="organization">The organization the recipient will represent</param>
+        /// <param name="inviteLink">A link to create a representative account</param>
+        /// <returns>true if the email has been successfully sent; otherwise, false</returns>
         public static async Task<bool> SendInviteEmail(string recipient, Organization organization, string inviteLink)
         {
             var client = new SendGridClient(SENDGRID_APIKEY);
@@ -163,6 +194,12 @@ namespace GetAccredited.Models
             return response.IsSuccessStatusCode;
         }
 
+        /// <summary>
+        /// Uploads a file into the system and gives it a unique name.
+        /// </summary>
+        /// <param name="file">The file being uploaded</param>
+        /// <param name="path">The path where the file will be stored</param>
+        /// <returns>The unique name of the file uploaded</returns>
         public static async Task<string> UploadFile(IFormFile file, string path) // path is the destination
         {
             // get file extension
@@ -181,6 +218,13 @@ namespace GetAccredited.Models
             return fileName;
         }
 
+        /// <summary>
+        /// Creates the first 2 representative accounts of the system.
+        /// </summary>
+        /// <param name="org1">The organization being represented by rep1</param>
+        /// <param name="org2">The organization being represented by rep2</param>
+        /// <param name="rep1">The first representative account</param>
+        /// <param name="rep2">The second representative account</param>
         private static void CreateRepresentatives(Organization org1, Organization org2,
             out ApplicationUser rep1, out ApplicationUser rep2)
         {
@@ -208,6 +252,16 @@ namespace GetAccredited.Models
             userManager.AddToRoleAsync(rep2, ROLE_REP).Wait();
         }
 
+        /// <summary>
+        /// Creates the first 2 accreditations of the system.
+        /// </summary>
+        /// <param name="org1">The organization offering acc1</param>
+        /// <param name="org2">The organization offering acc2</param>
+        /// <param name="rep1">The representative that added the first accreditation</param>
+        /// <param name="rep2">The representative that added the second accreditation</param>
+        /// <param name="acc1">The first accreditation</param>
+        /// <param name="acc2">The second accreditation</param>
+        /// <param name="context"></param>
         private static void CreateAccreditations(Organization org1, Organization org2,
             ApplicationUser rep1, ApplicationUser rep2, out Accreditation acc1, out Accreditation acc2,
             ApplicationDbContext context)
@@ -236,6 +290,14 @@ namespace GetAccredited.Models
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Creates the first 2 appointments of the system.
+        /// </summary>
+        /// <param name="org1">The organization associated with app1</param>
+        /// <param name="org2">The organization associated with app2</param>
+        /// <param name="app1">The first appointment</param>
+        /// <param name="app2">The second appointment</param>
+        /// <param name="context"></param>
         private static void CreateAppointments(Organization org1, Organization org2,
             out Appointment app1, out Appointment app2, ApplicationDbContext context)
         {

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GetAccredited.Models
 {
+    /// <summary>
+    /// The entity that holds debit/credit card information of student accounts.
+    /// </summary>
     public class Card
     {
         [Key]
@@ -16,6 +19,9 @@ namespace GetAccredited.Models
         public DateTime Expiry { get; set; }
         public string Code { get; set; }
 
+        /// <summary>
+        /// Determines whether the card has expired or not.
+        /// </summary>
         public bool IsExpired { get => Expiry < new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1); }
     }
 }

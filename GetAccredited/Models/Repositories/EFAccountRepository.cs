@@ -17,8 +17,15 @@ namespace GetAccredited.Models.Repositories
             env = _env;
         }
 
+        /// <summary>
+        /// Returns all Uploads.
+        /// </summary>
         public IQueryable<Upload> Uploads => context.Uploads;
 
+        /// <summary>
+        /// Saves an Upload.
+        /// </summary>
+        /// <param name="upload">The upload being created or updated</param>
         public void SaveUpload(Upload upload)
         {
             Upload uploadEntry = context.Uploads.FirstOrDefault(u => u.UploadId == upload.UploadId);
@@ -36,6 +43,11 @@ namespace GetAccredited.Models.Repositories
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Deletes the upload with the specified ID.
+        /// </summary>
+        /// <param name="uploadId">The ID of the upload to be deleted</param>
+        /// <returns>The upload being deleted</returns>
         public Upload DeleteUpload(int uploadId)
         {
             Upload upload = context.Uploads.FirstOrDefault(u => u.UploadId == uploadId);
@@ -53,6 +65,10 @@ namespace GetAccredited.Models.Repositories
             return upload;
         }
 
+        /// <summary>
+        /// Deletes all uploads by the specified user account.
+        /// </summary>
+        /// <param name="userId">The ID of the ApplicationUser whose uploads are to be deleted</param>
         public void DeleteUploadsByUser(string userId)
         {
             // retrieve all uploads by this user

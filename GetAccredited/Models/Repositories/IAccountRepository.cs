@@ -8,9 +8,8 @@ namespace GetAccredited.Models.Repositories
     public interface IAccountRepository
     {
         IQueryable<Upload> Uploads { get; }
-        void SaveUpload(Upload upload);
-
         Upload DeleteUpload(int uploadId);
         void DeleteUploadsByUser(string userId);
+        void SaveUpload(Upload upload);
     }
 }

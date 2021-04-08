@@ -17,8 +17,16 @@ namespace GetAccredited.Models.Repositories
             env = _env;
         }
 
+        /// <summary>
+        /// Returns all Organizations.
+        /// </summary>
         public IQueryable<Organization> Organizations => context.Organizations;
 
+        /// <summary>
+        /// Deletes an organization specified by the ID provided.
+        /// </summary>
+        /// <param name="organizationId">The ID of the organization to be deleted</param>
+        /// <returns>The deleted organization</returns>
         public Organization DeleteOrganization(string organizationId)
         {
             Organization organization = context.Organizations
@@ -44,11 +52,20 @@ namespace GetAccredited.Models.Repositories
             return organization;
         }
 
+        /// <summary>
+        /// Determines whether an organization with the specified ID exists or not.
+        /// </summary>
+        /// <param name="id">The ID of the organization being checked.</param>
+        /// <returns>true if the organization exists; otherwise, false</returns>
         public bool OrganizationExists(string id)
         {
             return Organizations.Any(o => o.OrganizationId == id);
         }
 
+        /// <summary>
+        /// Saves an organization.
+        /// </summary>
+        /// <param name="organization">The organization being created or updated.</param>
         public void SaveOrganization(Organization organization)
         {
             Organization organizationEntry = context.Organizations

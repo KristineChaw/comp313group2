@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace GetAccredited.Models
 {
+    /// <summary>
+    /// Provides extension methods to some classes.
+    /// </summary>
     public static class Extensions
     {
         /// <summary>

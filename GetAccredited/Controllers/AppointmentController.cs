@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace GetAccredited.Controllers
 {
+    /// <summary>
+    /// The controller class for appointment-related actions.
+    /// </summary>
     [Authorize]
     public class AppointmentController : Controller
     {
@@ -209,6 +212,84 @@ namespace GetAccredited.Controllers
 
         [HttpGet]
         [Authorize(Roles = Utility.ROLE_REP)]
+        public ViewResult CreateMultiple()
+        {
+            return View(new AppointmentsViewModel() { Date = DateTime.Now });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Utility.ROLE_REP)]
+        public async Task<IActionResult> CreateMultiple(AppointmentsViewModel model)
+        {
+            // check if date is NOT in the past
+            if (model.Date < DateTime.Today ||
+                (model.Date == DateTime.Today && model.Start < DateTime.Now))
+            {
+                ModelState.AddModelError("", "Please select a start time and date in the future.");
+            }
+
+            // retrieve current representative user and their organization
+            var representative = await userManager.GetUserAsync(User);
+            var organization = organizationRepository.Organizations
+                    .First(o => o.OrganizationId == representative.OrganizationId);
+
+            // check if date is free
+            if (appointmentRepository.Appointments
+                .Any(a => a.Organization == organization && a.Date == model.Date))
+            {
+                ModelState.AddModelError("", "Please select another date. There are appointments already booked on this day.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                int totalMinutes = 24 * 60; // total minutes in a day
+                int remaining = totalMinutes -
+                    ((model.Start.Hour * 60) +
+                    (model.Start.Minute)); // total minutes remaining in the day from the indicated started time
+
+                if (remaining <= model.Duration)
+                { // can't fit one appointment
+                    ModelState.AddModelError("",
+                        "No appointments would be created because the specified start time of the first appointment is too close to the end of the day.");
+                    return View(model);
+                }
+
+                // calculate how many appointments could fit in the specified date based on the inputs
+                var count = 0;
+                do
+                {
+                    count++;
+                    remaining -= (model.TimeInBetween + model.Duration);
+                } while (remaining > (model.TimeInBetween + model.Duration));
+
+                // create appointments slots
+                var slots = new List<Appointment>();
+                var start = model.Start;
+                while (slots.Count != count)
+                {
+                    var slot = new Appointment
+                    {
+                        Organization = organization,
+                        Date = model.Date,
+                        Start = start,
+                        End = start.AddMinutes(model.Duration)
+                    };
+                    if (slot.Start.Hour < model.Start.Hour || slot.Start.Hour < slot.End.Hour) // don't allow appointments that start or end past midnight
+                        slots.Add(slot);
+                    start = start.AddMinutes(model.TimeInBetween + model.Duration);
+                }
+
+                // save to DB and redirect to Appointment/List
+                appointmentRepository.SaveAppointments(slots);
+                TempData["message"] = $"Number of appointment slots automatically created: {slots.Count}";
+                return RedirectToAction("List", "Appointment");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Utility.ROLE_REP)]
         public ViewResult Edit(int appointmentId)
         {
             var appointment = appointmentRepository.Appointments.Where(a => a.AppointmentId == appointmentId).First();
@@ -354,53 +435,6 @@ namespace GetAccredited.Controllers
             return View("Requests", requests);
         }
 
-        [HttpGet]
-        [Authorize(Roles = Utility.ROLE_ADMIN + "," + Utility.ROLE_REP)]
-        public ViewResult VerifyAppointment()
-        {
-            return View("VerifyAppointment");
-        }
-
-        [HttpPost]
-        [Authorize(Roles = Utility.ROLE_ADMIN + "," + Utility.ROLE_REP)]
-        public async Task<IActionResult> VerifyAppointment(int trackingNumber)
-        {
-            // check if appointment exists
-            var appointment = appointmentRepository.Appointments
-                .Where(a => a.AppointmentId == trackingNumber)
-                .FirstOrDefault();
-
-            if (appointment == null)
-            {
-                TempData["message"] = $"There is no appointment with tracking number {trackingNumber}.";
-                return RedirectToAction("VerifyAppointment");
-            }
-
-            // check if user is a representative
-            // a representative should only be able to verify appointments booked with their own organization
-            if (User.IsRepresentative())
-            {
-                var rep = await userManager.GetUserAsync(User);
-                if (appointment.Organization.OrganizationId != rep.OrganizationId) // appointment belongs to another organization
-                {
-                    TempData["message"] = "You do not have enough rights to view the details of this appointment.";
-                    return RedirectToAction("VerifyAppointment");
-                }
-            }
-
-            // check if it's not booked
-            if (!appointment.IsBooked)
-            {
-                TempData["message"] = "This appointment is not booked.";
-                return RedirectToAction("VerifyAppointment");
-            }
-
-            // load appointment with booking information
-            return View("AppointmentDetails", appointmentRepository.Bookings
-                .Where(b => b.Appointment == appointment)
-                .First());
-        }
-
         [HttpPost]
         [Authorize(Roles = Utility.ROLE_REP)]
         public async Task<IActionResult> Save(Appointment model)
@@ -455,81 +489,50 @@ namespace GetAccredited.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = Utility.ROLE_REP)]
-        public ViewResult CreateMultiple()
+        [Authorize(Roles = Utility.ROLE_ADMIN + "," + Utility.ROLE_REP)]
+        public ViewResult VerifyAppointment()
         {
-            return View(new AppointmentsViewModel() { Date = DateTime.Now });
+            return View("VerifyAppointment");
         }
 
         [HttpPost]
-        [Authorize(Roles = Utility.ROLE_REP)]
-        public async Task<IActionResult> CreateMultiple(AppointmentsViewModel model)
+        [Authorize(Roles = Utility.ROLE_ADMIN + "," + Utility.ROLE_REP)]
+        public async Task<IActionResult> VerifyAppointment(int trackingNumber)
         {
-            // check if date is NOT in the past
-            if (model.Date < DateTime.Today ||
-                (model.Date == DateTime.Today && model.Start < DateTime.Now))
+            // check if appointment exists
+            var appointment = appointmentRepository.Appointments
+                .Where(a => a.AppointmentId == trackingNumber)
+                .FirstOrDefault();
+
+            if (appointment == null)
             {
-                ModelState.AddModelError("", "Please select a start time and date in the future.");
+                TempData["message"] = $"There is no appointment with tracking number {trackingNumber}.";
+                return RedirectToAction("VerifyAppointment");
             }
 
-            // retrieve current representative user and their organization
-            var representative = await userManager.GetUserAsync(User);
-            var organization = organizationRepository.Organizations
-                    .First(o => o.OrganizationId == representative.OrganizationId);
-
-            // check if date is free
-            if (appointmentRepository.Appointments
-                .Any(a => a.Organization == organization && a.Date == model.Date))
+            // check if user is a representative
+            // a representative should only be able to verify appointments booked with their own organization
+            if (User.IsRepresentative())
             {
-                ModelState.AddModelError("", "Please select another date. There are appointments already booked on this day.");
-            }
-
-            if (ModelState.IsValid)
-            {
-                int totalMinutes = 24 * 60; // total minutes in a day
-                int remaining = totalMinutes -
-                    ((model.Start.Hour * 60) +
-                    (model.Start.Minute)); // total minutes remaining in the day from the indicated started time
-
-                if (remaining <= model.Duration)
-                { // can't fit one appointment
-                    ModelState.AddModelError("",
-                        "No appointments would be created because the specified start time of the first appointment is too close to the end of the day.");
-                    return View(model);
-                }
-
-                // calculate how many appointments could fit in the specified date based on the inputs
-                var count = 0;
-                do
+                var rep = await userManager.GetUserAsync(User);
+                if (appointment.Organization.OrganizationId != rep.OrganizationId) // appointment belongs to another organization
                 {
-                    count++;
-                    remaining -= (model.TimeInBetween + model.Duration);
-                } while (remaining > (model.TimeInBetween + model.Duration));
-
-                // create appointments slots
-                var slots = new List<Appointment>();
-                var start = model.Start;
-                while (slots.Count != count)
-                {
-                    var slot = new Appointment
-                    {
-                        Organization = organization,
-                        Date = model.Date,
-                        Start = start,
-                        End = start.AddMinutes(model.Duration)
-                    };
-                    if (slot.Start.Hour < model.Start.Hour || slot.Start.Hour < slot.End.Hour) // don't allow appointments that start or end past midnight
-                        slots.Add(slot);
-                    start = start.AddMinutes(model.TimeInBetween + model.Duration);
+                    TempData["message"] = "You do not have enough rights to view the details of this appointment.";
+                    return RedirectToAction("VerifyAppointment");
                 }
-
-                // save to DB and redirect to Appointment/List
-                appointmentRepository.SaveAppointments(slots);
-                TempData["message"] = $"Number of appointment slots automatically created: {slots.Count}";
-                return RedirectToAction("List", "Appointment");
             }
 
-            return View(model);
+            // check if it's not booked
+            if (!appointment.IsBooked)
+            {
+                TempData["message"] = "This appointment is not booked.";
+                return RedirectToAction("VerifyAppointment");
+            }
+
+            // load appointment with booking information
+            return View("AppointmentDetails", appointmentRepository.Bookings
+                .Where(b => b.Appointment == appointment)
+                .First());
         }
     }
 }

@@ -1,9 +1,8 @@
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\GetAccredited.exe
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\css\styles.css
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\data\requirements\2e9e819b-c616-42bc-b62b-8e976d5e0060.pdf
-C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\data\requirements\3a869c22-caaa-45bb-ad32-3f453c4f14d6.pdf
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\images\fa-barboza-yuqCAKrbjyE-unsplash.png
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\images\icon.png
+C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\images\logos\33603c2e-59f8-47b2-a1b9-d9ac587e4733.png
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\images\photo-1486406146926-c627a92ad1ab.png
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\images\priscilla-du-preez-nNMBa7Y1Ymk-unsplash-adm.png
 C:\Users\John\source\repos\COMP 313\comp313group2\GetAccredited\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\images\priscilla-du-preez-nNMBa7Y1Ymk-unsplash-rep.png

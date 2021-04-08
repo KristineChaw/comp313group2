@@ -8,19 +8,18 @@ namespace GetAccredited.Models.Repositories
     public interface IAppointmentRepository
     {
         IQueryable<Appointment> Appointments { get; }
+        IQueryable<Booking> Bookings { get; }
+        IQueryable<Card> Cards { get; }
+        IQueryable<Request> Requests { get; }
+
         void DeleteAppointmentsByOrganization(Organization organization);
+        void DeleteBookingsByStudent(string studentId);
+        void DeleteCardsByStudent(string studentId);
+        void DeleteRequest(Request request);
         void SaveAppointment(Appointment appointment);
         void SaveAppointments(List<Appointment> slots);
-        IQueryable<Booking> Bookings { get; }
         void SaveBooking(Booking booking);
-        IQueryable<Card> Cards { get; }
         void SaveCard(Card card);
-        IQueryable<Request> Requests { get; }
         void SaveRequest(Request request);
-        void DeleteRequest(Request request);
-
-        void DeleteBookingsByStudent(string studentId);
-
-        void DeleteCardsByStudent(string studentId);
     }
 }

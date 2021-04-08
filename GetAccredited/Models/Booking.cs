@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace GetAccredited.Models
 {
+    /// <summary>
+    /// A booking is a record of an appointment booking by a student.
+    /// </summary>
     public class Booking
     {
         public int BookingId { get; set; }
@@ -12,6 +15,10 @@ namespace GetAccredited.Models
         public Appointment Appointment { get; set; }
         public Accreditation Accreditation { get; set; }
         public DateTime DateBooked { get; set; }
+
+        /// <summary>
+        /// Determines whether this booking has been cancelled.
+        /// </summary>
         public bool IsCancelled { get; set; }
     }
 }

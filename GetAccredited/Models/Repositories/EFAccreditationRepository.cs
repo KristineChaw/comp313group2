@@ -18,8 +18,16 @@ namespace GetAccredited.Models.Repositories
             env = _env;
         }
 
+        /// <summary>
+        /// Returns all Accreditations.
+        /// </summary>
         public IQueryable<Accreditation> Accreditations => context.Accreditations.Include("Organization");
 
+        /// <summary>
+        /// Deletes an accreditation with the specified ID.
+        /// </summary>
+        /// <param name="accreditationId">The ID of the accreditation to be deleted</param>
+        /// <returns>The deleted accreditation</returns>
         public Accreditation DeleteAccreditation(int accreditationId)
         {
             Accreditation accreditationEntry = context.Accreditations
@@ -38,6 +46,10 @@ namespace GetAccredited.Models.Repositories
             return accreditationEntry;
         }
 
+        /// <summary>
+        /// Deletes all accreditations being offered by the specified organization.
+        /// </summary>
+        /// <param name="organization">The organization that offers the accreditations being deleted</param>
         public void DeleteAccreditationsByOrganization(Organization organization)
         {
             // retrieve all accreditations by organization
@@ -63,6 +75,10 @@ namespace GetAccredited.Models.Repositories
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Saves an accreditation.
+        /// </summary>
+        /// <param name="accreditation">The accreditation being created or updated.</param>
         public void SaveAccreditation(Accreditation accreditation)
         {
             Accreditation accreditationEntry = context.Accreditations.FirstOrDefault(a => a.AccreditationId == accreditation.AccreditationId);

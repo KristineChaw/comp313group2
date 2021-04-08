@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace GetAccredited.Controllers
 {
+    /// <summary>
+    /// The controller class for home- or portal-related actions.
+    /// </summary>
     [Authorize]
     public class HomeController : Controller
     {

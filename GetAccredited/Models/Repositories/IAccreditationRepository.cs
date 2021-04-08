@@ -8,11 +8,8 @@ namespace GetAccredited.Models.Repositories
     public interface IAccreditationRepository
     {
         IQueryable<Accreditation> Accreditations { get; }
-
-        void SaveAccreditation(Accreditation accreditation);
-
         Accreditation DeleteAccreditation(int accreditationId);
-
         void DeleteAccreditationsByOrganization(Organization organization);
+        void SaveAccreditation(Accreditation accreditation);
     }
 }

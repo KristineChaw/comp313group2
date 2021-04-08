@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace GetAccredited.Models
 {
+    /// <summary>
+    /// An accreditation is a skill evaluation certification being offered by an organization.
+    /// </summary>
     public class Accreditation
     {
         public int AccreditationId { get; set; }
@@ -16,8 +19,16 @@ namespace GetAccredited.Models
         public string Eligibility { get; set; }
         public string EligibilityFileURL { get; set; }
 
+        /// <summary>
+        /// Returns a string representation of this accreditation.
+        /// </summary>
+        /// <returns>String representation of this accreditation instance</returns>
         public override string ToString() => Name;
 
+        /// <summary>
+        /// Returns a list of string that represent the types of accreditation being offered by the system.
+        /// </summary>
+        /// <returns>List of accreditation types</returns>
         public static List<string> GetTypes()
         {
             return new List<string>

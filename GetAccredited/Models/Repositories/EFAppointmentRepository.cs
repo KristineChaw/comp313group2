@@ -15,16 +15,32 @@ namespace GetAccredited.Models.Repositories
             context = ctx;
         }
 
+        /// <summary>
+        /// Returns all Appointments.
+        /// </summary>
         public IQueryable<Appointment> Appointments => context.Appointments.Include("Organization");
 
+        /// <summary>
+        /// Returns all Bookings.
+        /// </summary>
         public IQueryable<Booking> Bookings => context.Bookings.Include("Appointment").Include("Accreditation")
             .Include("Appointment.Organization");
 
+        /// <summary>
+        /// Returns all Cards (debit/credit card information).
+        /// </summary>
         public IQueryable<Card> Cards => context.Cards;
 
+        /// <summary>
+        /// Returns all Requests (appointment rescheduling or cancellation request).
+        /// </summary>
         public IQueryable<Request> Requests => context.Requests.Include("Booking").Include("NewAppointment")
             .Include("Booking.Appointment").Include("Booking.Appointment.Organization");
 
+        /// <summary>
+        /// Deletes all appointments of the specified organization.
+        /// </summary>
+        /// <param name="organization">The organization whose appointments are being deleted</param>
         public void DeleteAppointmentsByOrganization(Organization organization)
         {
             // retrieve all appointments by organization
@@ -47,6 +63,10 @@ namespace GetAccredited.Models.Repositories
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Deletes all bookings by a student account.
+        /// </summary>
+        /// <param name="studentId">The ID of the ApplicationUser whose bookings are to be deleted</param>
         public void DeleteBookingsByStudent(string studentId)
         {
             var bookings = context.Bookings.Where(b => b.StudentId == studentId);
@@ -66,6 +86,21 @@ namespace GetAccredited.Models.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes all cards (debit/credit card information) by a student account.
+        /// </summary>
+        /// <param name="studentId">The ID of the ApplicationUser whose cards are to be deleted</param>
+        public void DeleteCardsByStudent(string studentId)
+        {
+            var cards = context.Cards.Where(c => c.CustomerId == studentId);
+            context.Cards.RemoveRange(cards);
+            context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Deletes a request (appointment rescheduling or cancellation request).
+        /// </summary>
+        /// <param name="request">The request to be deleted</param>
         public void DeleteRequest(Request request)
         {
             if (request != null)
@@ -77,6 +112,10 @@ namespace GetAccredited.Models.Repositories
                 throw new ArgumentNullException();
         }
 
+        /// <summary>
+        /// Saves an appointment.
+        /// </summary>
+        /// <param name="appointment">The appointment being created or updated</param>
         public void SaveAppointment(Appointment appointment)
         {
             // attempt to retrieve appointment
@@ -100,12 +139,20 @@ namespace GetAccredited.Models.Repositories
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Saves a list of appointments into the system.
+        /// </summary>
+        /// <param name="slots">The appointment slots to be saved</param>
         public void SaveAppointments(List<Appointment> slots)
         {
             context.Appointments.AddRange(slots);
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Saves a booking.
+        /// </summary>
+        /// <param name="booking">The booking being created or updated</param>
         public void SaveBooking(Booking booking)
         {
             Booking bookingEntry = context.Bookings
@@ -125,6 +172,10 @@ namespace GetAccredited.Models.Repositories
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Saves a card (debit/credit card information).
+        /// </summary>
+        /// <param name="card">The card being created or updated</param>
         public void SaveCard(Card card)
         {
             Card cardEntry = context.Cards
@@ -144,6 +195,10 @@ namespace GetAccredited.Models.Repositories
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Saves a request (appointment rescheduling or cancellation request).
+        /// </summary>
+        /// <param name="request">The request being created or updated</param>
         public void SaveRequest(Request request)
         {
             if (request.RequestId == 0)
@@ -151,13 +206,6 @@ namespace GetAccredited.Models.Repositories
                 context.Requests.Add(request);
                 context.SaveChanges();
             }
-        }
-
-        public void DeleteCardsByStudent(string studentId)
-        {
-            var cards = context.Cards.Where(c => c.CustomerId == studentId);
-            context.Cards.RemoveRange(cards);
-            context.SaveChanges();
         }
     }
 }
