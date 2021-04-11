@@ -585,7 +585,7 @@ h3 {
     font-weight: 500;
     font-family: 'Lato';
     width: 37.35%;
-    margin: 3px 0px 20px 135px;
+    margin: 3px 0px 20px 0px;
 }
 
     .org_details_btn:first-child {
@@ -939,7 +939,7 @@ h3 {
     .appoint-container input[type=date],
     .appoint-container input[type=time],
     .appoint-container input[type=url] {
-        width: 442px;
+        width: 433px;
         padding: 7px;
         border-radius: 3px;
         border: 1px solid #ccc;
@@ -1122,7 +1122,7 @@ h3 {
     font-size: 90%;
     font-weight: 500;
     font-family: 'Lato';
-    width: 37.35%;
+    width: 18.5%;
     margin: 3px 0px 20px 0px;
 }
 
@@ -1553,3 +1553,77 @@ input[type="file"] {
     .uploadslist_crud:hover {
         text-decoration: underline;
     }
+
+.create_multiple_btn {
+    text-align: center;
+    display: inline-block;
+    padding: 10px 30px;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: background-color 0.2s, border 0.2s, color 0.2s;
+    background-color: #7d9c21;
+    border: 1px solid #7d9c21;
+    color: #fff;
+    font-size: 90%;
+    font-weight: 500;
+    font-family: 'Lato';
+    width: 53.90%;
+    margin: 7px 0px 20px 0px;
+}
+
+    .create_multiple_btn:first-child {
+        margin-left: 262px;
+    }
+
+    .create_multiple_btn:hover,
+    .create_multiple_btn:active {
+        background-color: #a9d32e;
+        border: 1px solid #a9d32e;
+    }
+
+.appoint-multiple-container {
+    background-color: #fff;
+    border-radius: 5px;
+    width: 55.3%;
+    box-shadow: 0 2px 2px #efefef;
+    padding-left: 20px;
+    padding-top: 15px;
+    padding-bottom: 20px;
+}
+
+    .appoint-multiple-container input[type=text],
+    .appoint-multiple-container input[type=date],
+    .appoint-multiple-container input[type=time],
+    .appoint-multiple-container select,
+    .appoint-multiple-container input[type=url] {
+        width: 426px;
+        padding: 7px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        margin: 10px 0 0px 10px;
+    }
+
+
+    .appoint-multiple-container input[type=submit] {
+        display: inline-block;
+        padding: 10px 30px;
+        text-decoration: none;
+        border-radius: 3px;
+        transition: background-color 0.2s, border 0.2s, color 0.2s;
+        background-color: #7d9c21;
+        border: 1px solid #7d9c21;
+        color: #fff;
+        margin-right: 15px;
+        font-size: 90%;
+        font-weight: 500;
+        font-family: 'Lato';
+        width: 100%;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+        .appoint-multiple-container input[type=submit]:hover,
+        .appoint-multiple-container input[type=submit]:active {
+            background-color: #a9d32e;
+            border: 1px solid #a9d32e;
+        }

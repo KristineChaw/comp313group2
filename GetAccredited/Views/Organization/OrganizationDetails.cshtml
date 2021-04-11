@@ -10,16 +10,19 @@
     </h2>
 </div>
 
+<div>
+    <center>
+        @if (Model.Logo != null)
+        {
+            <img src="~/images/logos/@(Model.Logo)" height="100" />
+        }
+    </center>
+</div>
+
 <div class="row">
     <div class="col span-1-of-1">
         <!-- ORGANIZATION DETAILS -->
         <div class="org_details_box">
-            <!-- Logo -->
-            @if (Model.Logo != null)
-            {
-                <img src="~/images/logos/@(Model.Logo)" height="100" />
-            }
-
             <!-- Details -->
             <h1 class="org_details_title">
                 @Model
@@ -68,7 +71,6 @@
         <div>
             @if (User.IsRepresentative())
             {
-                <br><br>
                 <a class="org_details_btn" asp-controller="Organization"
                    asp-action="Edit"
                    asp-route-organizationId="@Model.OrganizationId">Edit Organization</a>

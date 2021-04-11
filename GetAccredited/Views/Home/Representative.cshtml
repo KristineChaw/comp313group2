@@ -13,8 +13,12 @@
     </div>
 
     <div class="col span-1-of-2">
-        <br />
-
+        <div class="box">
+            <h1 class="title_representative">
+                My Profile:
+            </h1><br>
+            <p class="p_representative">Name: @User.Identity.Name</p>
+        </div>
         <div>
             <a asp-controller="Account"
                asp-action="Edit" class="btn_portal">Edit Profile</a>

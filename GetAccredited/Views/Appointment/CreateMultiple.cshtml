@@ -5,10 +5,16 @@
     <h2>
         Add Multiple Appointments
     </h2>
-    <h3>This page allows you to add multiple appointment slots in a day at once.</h3>
 </div>
 
-<div class="row">
+<div>
+    <center>
+        <h3>This page allows you to add multiple appointment slots in a day at once.</h3>
+        <h3>You can only add multiple appointments on a free day or on a date with no appointments booked.</h3><br />
+    </center>
+</div>
+
+<div class="row appoint-multiple-container">
     <form asp-controller="Appointment" asp-action="CreateMultiple" method="post">
         <table>
             <!-- DATE -->
@@ -16,7 +22,6 @@
                 <td>Date:</td>
                 <td>
                     <input asp-for="Date" type="date" required /> <br />
-                    <span>Note: You can only add multiple appointments on a free day or on a date with no appointments booked.</span>
                 </td>
             </tr>
 

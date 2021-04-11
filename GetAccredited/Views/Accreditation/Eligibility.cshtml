@@ -7,19 +7,23 @@
     </h2>
 </div>
 
+<div>
+    <center>
+        @if (Model.Organization.Logo != null)
+        {
+            <img src="~/images/logos/@Model.Organization.Logo" height="100" />
+        }
+    </center>
+</div>
+
 <div class="row">
     <div class="col span-1-of-1">
         <div class="eligibility_box">
-            @if (Model.Organization.Logo != null)
-            {
-                <img src="~/images/logos/@Model.Organization.Logo" height="100" />
-            }
             @if (Model.EligibilityFileURL == null)
             {
-
                 <h1 class="eligibility_title">
                     @Model.Organization
-                </h1> <hr /><br />
+                </h1><br />
                 <p>If you want to be considered for this accreditation, you must meet the following eligibility requirements before applying:</p> <br />
                 <pre>@Model.Eligibility</pre>
             }

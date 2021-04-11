@@ -49,7 +49,11 @@
 }
 else
 {
-<span class="center">@(currentUser ? "You have not uploaded any document yet." : "This user has not uploaded any documents yet.")</span><br>
+<div>
+    <center>
+        <span class="center">@(currentUser ? "You have not uploaded any document yet." : "This user has not uploaded any documents yet.")</span><br>
+    </center>
+</div>
 }
 
 @if (currentUser)
